@@ -1,0 +1,58 @@
+﻿@model LocalShowsOnly.Models.Event
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Event</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="hostId" class="control-label"></label>
+                <input asp-for="hostId" class="form-control" />
+                <span asp-validation-for="hostId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="title" class="control-label"></label>
+                <input asp-for="title" class="form-control" />
+                <span asp-validation-for="title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lineup" class="control-label"></label>
+                <input asp-for="lineup" class="form-control" />
+                <span asp-validation-for="lineup" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="venue" class="control-label"></label>
+                <input asp-for="venue" class="form-control" />
+                <span asp-validation-for="venue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="showtime" class="control-label"></label>
+                <input asp-for="showtime" class="form-control" />
+                <span asp-validation-for="showtime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FBLink" class="control-label"></label>
+                <input asp-for="FBLink" class="form-control" />
+                <span asp-validation-for="FBLink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
