@@ -16,5 +16,7 @@ namespace LocalShowsOnly.Models
         public int eventId { get; set; }
         [ForeignKey("User")]
         public int attendeeId { get; set; }
+        [Required]
+        public string reviewText { get; set; }
     }
 }

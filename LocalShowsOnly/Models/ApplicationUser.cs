@@ -18,6 +18,16 @@ namespace LocalShowsOnly.Models
         [Display(Name = "Email")]
         public string userEmail { get; set; }
 
+        [Required]
+        [Display(Name = "First Name")]
+        public string firstName { get; set; }
+        [Required]
+        [Display(Name = "Last Name")]
+        public string lastName { get; set; }
+
+        [Display(Name = "Profile Photo")]
+        public string photoURL { get; set; }
+
         public virtual ICollection<Event> HostedEvents { get; set; }
         public virtual ICollection<RSVP> Attending { get; set; }
     }

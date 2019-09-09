@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace LocalShowsOnly.Models
 {
-    public class Event
+    public class Venue
     {
         [Key]
         [Required]
         public int id { get; set; }
-        [ForeignKey("User")]
         [Required]
-        public int hostId { get; set; }
+        public string venueName { get; set; }
         [Required]
-        public string title { get; set; }
-        
+        public string venueAddress { get; set; }
         [Required]
-        public int venueId { get; set; }
+        public string venueDetails { get; set; }
         [Required]
-        public DateTime showtime { get; set; }
+        public string phoneNumber { get; set; }
         [Required]
-        public string externalLink { get; set; }
+        public string email { get; set; }
+        [Required]
         public string photoURL { get; set; }
-
+        [Required]
+        public string websiteURL { get; set; }
+        
     }
 }
