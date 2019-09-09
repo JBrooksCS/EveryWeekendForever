@@ -4,14 +4,16 @@ using LocalShowsOnly.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LocalShowsOnly.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190909203721_addedVenueAndBand2")]
+    partial class addedVenueAndBand2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,6 +58,14 @@ namespace LocalShowsOnly.Migrations
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<string>("firstName")
+                        .IsRequired();
+
+                    b.Property<string>("lastName")
+                        .IsRequired();
+
+                    b.Property<string>("photoURL");
 
                     b.HasKey("Id");
 

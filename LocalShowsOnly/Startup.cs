@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using LocalShowsOnly.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using LocalShowsOnly.Models;
 
 namespace LocalShowsOnly
 {
@@ -38,7 +39,7 @@ namespace LocalShowsOnly
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -70,7 +71,7 @@ namespace LocalShowsOnly
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Events}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
