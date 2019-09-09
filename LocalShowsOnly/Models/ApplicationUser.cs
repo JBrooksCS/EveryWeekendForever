@@ -12,7 +12,7 @@ namespace LocalShowsOnly.Models
 
         [Required]
         [Display(Name = "Username")]
-        public string userName { get; set; }
+        public string User_Name { get; set; }
 
         [Required]
         [Display(Name = "Email")]

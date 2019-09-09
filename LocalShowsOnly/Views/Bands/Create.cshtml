@@ -1,4 +1,4 @@
-﻿@model LocalShowsOnly.Models.Event
+﻿@model LocalShowsOnly.Models.Band
 
 @{
     ViewData["Title"] = "Create";
@@ -6,30 +6,21 @@
 
 <h1>Create</h1>
 
-<h4>Event</h4>
+<h4>Band</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="hostId" class="control-label"></label>
-                <input asp-for="hostId" class="form-control" />
-                <span asp-validation-for="hostId" class="text-danger"></span>
+                <label asp-for="bandName" class="control-label"></label>
+                <input asp-for="bandName" class="form-control" />
+                <span asp-validation-for="bandName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="title" class="control-label"></label>
-                <input asp-for="title" class="form-control" />
-                <span asp-validation-for="title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="venueId" class="control-label"></label>
-                <select asp-for="venueId" class ="form-control" asp-items="ViewBag.venueId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="showtime" class="control-label"></label>
-                <input asp-for="showtime" class="form-control" />
-                <span asp-validation-for="showtime" class="text-danger"></span>
+                <label asp-for="bio" class="control-label"></label>
+                <input asp-for="bio" class="form-control" />
+                <span asp-validation-for="bio" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="externalLink" class="control-label"></label>
@@ -37,9 +28,19 @@
                 <span asp-validation-for="externalLink" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="genre" class="control-label"></label>
+                <input asp-for="genre" class="form-control" />
+                <span asp-validation-for="genre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="photoURL" class="control-label"></label>
                 <input asp-for="photoURL" class="form-control" />
                 <span asp-validation-for="photoURL" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="isActive" /> @Html.DisplayNameFor(model => model.isActive)
+                </label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

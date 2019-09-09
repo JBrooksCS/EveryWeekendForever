@@ -26,5 +26,6 @@ namespace LocalShowsOnly.Models
         public string externalLink { get; set; }
         public string photoURL { get; set; }
 
+        public virtual ICollection<RSVP> RSVPs { get; set; }
     }
 }

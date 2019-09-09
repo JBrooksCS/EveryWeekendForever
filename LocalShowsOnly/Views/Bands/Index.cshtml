@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LocalShowsOnly.Models.Event>
+﻿@model IEnumerable<LocalShowsOnly.Models.Band>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,19 +13,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.hostId)
+                @Html.DisplayNameFor(model => model.bandName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.showtime)
+                @Html.DisplayNameFor(model => model.bio)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.externalLink)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.genre)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.photoURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isActive)
             </th>
             <th></th>
         </tr>
@@ -34,19 +37,22 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.hostId)
+                @Html.DisplayFor(modelItem => item.bandName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.showtime)
+                @Html.DisplayFor(modelItem => item.bio)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.externalLink)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.genre)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.photoURL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isActive)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |

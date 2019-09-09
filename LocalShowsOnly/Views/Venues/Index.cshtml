@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LocalShowsOnly.Models.Event>
+﻿@model IEnumerable<LocalShowsOnly.Models.Venue>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,19 +13,25 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.hostId)
+                @Html.DisplayNameFor(model => model.venueName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.title)
+                @Html.DisplayNameFor(model => model.venueAddress)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.showtime)
+                @Html.DisplayNameFor(model => model.venueDetails)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.externalLink)
+                @Html.DisplayNameFor(model => model.phoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.photoURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.websiteURL)
             </th>
             <th></th>
         </tr>
@@ -34,19 +40,25 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.hostId)
+                @Html.DisplayFor(modelItem => item.venueName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.title)
+                @Html.DisplayFor(modelItem => item.venueAddress)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.showtime)
+                @Html.DisplayFor(modelItem => item.venueDetails)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.externalLink)
+                @Html.DisplayFor(modelItem => item.phoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.photoURL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.websiteURL)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |

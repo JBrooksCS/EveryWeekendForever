@@ -18,5 +18,7 @@ namespace LocalShowsOnly.Models
         public int attendeeId { get; set; }
         [Required]
         public string reviewText { get; set; }
+
+
     }
 }

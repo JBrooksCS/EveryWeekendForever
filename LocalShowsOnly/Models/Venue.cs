@@ -25,6 +25,8 @@ namespace LocalShowsOnly.Models
         public string photoURL { get; set; }
         [Required]
         public string websiteURL { get; set; }
-        
+
+        public virtual ICollection<Event> VenueEvents { get; set; }
+
     }
 }
