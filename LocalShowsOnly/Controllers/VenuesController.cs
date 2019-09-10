@@ -10,22 +10,22 @@ using LocalShowsOnly.Models;
 
 namespace LocalShowsOnly.Controllers
 {
-    public class EventsController : Controller
+    public class VenuesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EventsController(ApplicationDbContext context)
+        public VenuesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Events
+        // GET: Venues
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Event.ToListAsync());
+            return View(await _context.Venue.ToListAsync());
         }
 
-        // GET: Events/Details/5
+        // GET: Venues/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace LocalShowsOnly.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event
+            var venue = await _context.Venue
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (@event == null)
+            if (venue == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(venue);
         }
 
-        // GET: Events/Create
+        // GET: Venues/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Events/Create
+        // POST: Venues/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,hostId,title,venueId,showtime,externalLink,photoURL")] Event @event)
+        public async Task<IActionResult> Create([Bind("id,venueName,venueAddress,venueDetails,phoneNumber,email,photoURL,websiteURL")] Venue venue)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
+                _context.Add(venue);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            return View(venue);
         }
 
-        // GET: Events/Edit/5
+        // GET: Venues/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace LocalShowsOnly.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event.FindAsync(id);
-            if (@event == null)
+            var venue = await _context.Venue.FindAsync(id);
+            if (venue == null)
             {
                 return NotFound();
             }
-            return View(@event);
+            return View(venue);
         }
 
-        // POST: Events/Edit/5
+        // POST: Venues/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,hostId,title,venueId,showtime,externalLink,photoURL")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("id,venueName,venueAddress,venueDetails,phoneNumber,email,photoURL,websiteURL")] Venue venue)
         {
-            if (id != @event.id)
+            if (id != venue.id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace LocalShowsOnly.Controllers
             {
                 try
                 {
-                    _context.Update(@event);
+                    _context.Update(venue);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(@event.id))
+                    if (!VenueExists(venue.id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace LocalShowsOnly.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            return View(venue);
         }
 
-        // GET: Events/Delete/5
+        // GET: Venues/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace LocalShowsOnly.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event
+            var venue = await _context.Venue
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (@event == null)
+            if (venue == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(venue);
         }
 
-        // POST: Events/Delete/5
+        // POST: Venues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Event.FindAsync(id);
-            _context.Event.Remove(@event);
+            var venue = await _context.Venue.FindAsync(id);
+            _context.Venue.Remove(venue);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EventExists(int id)
+        private bool VenueExists(int id)
         {
-            return _context.Event.Any(e => e.id == id);
+            return _context.Venue.Any(e => e.id == id);
         }
     }
 }

@@ -54,7 +54,7 @@ namespace LocalShowsOnly.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,eventId,attendeeId")] RSVP rSVP)
+        public async Task<IActionResult> Create([Bind("id,eventId,attendeeId,reviewText")] RSVP rSVP)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace LocalShowsOnly.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,eventId,attendeeId")] RSVP rSVP)
+        public async Task<IActionResult> Edit(int id, [Bind("id,eventId,attendeeId,reviewText")] RSVP rSVP)
         {
             if (id != rSVP.id)
             {

@@ -4,14 +4,16 @@ using LocalShowsOnly.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LocalShowsOnly.Data.Migrations
+namespace LocalShowsOnly.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190909201222_addedVenueAndBand")]
+    partial class addedVenueAndBand
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,10 +59,18 @@ namespace LocalShowsOnly.Data.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("userEmail")
+                    b.Property<string>("User_Name")
                         .IsRequired();
 
-                    b.Property<string>("userName")
+                    b.Property<string>("firstName")
+                        .IsRequired();
+
+                    b.Property<string>("lastName")
+                        .IsRequired();
+
+                    b.Property<string>("photoURL");
+
+                    b.Property<string>("userEmail")
                         .IsRequired();
 
                     b.HasKey("Id");
@@ -76,6 +86,33 @@ namespace LocalShowsOnly.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("LocalShowsOnly.Models.Band", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("bandName")
+                        .IsRequired();
+
+                    b.Property<string>("bio")
+                        .IsRequired();
+
+                    b.Property<string>("externalLink");
+
+                    b.Property<string>("genre")
+                        .IsRequired();
+
+                    b.Property<bool>("isActive");
+
+                    b.Property<string>("photoURL")
+                        .IsRequired();
+
+                    b.HasKey("id");
+
+                    b.ToTable("Band");
+                });
+
             modelBuilder.Entity("LocalShowsOnly.Models.Event", b =>
                 {
                     b.Property<int>("id")
@@ -84,25 +121,25 @@ namespace LocalShowsOnly.Data.Migrations
 
                     b.Property<string>("ApplicationUserId");
 
-                    b.Property<string>("FBLink")
+                    b.Property<string>("externalLink")
                         .IsRequired();
 
                     b.Property<int>("hostId");
 
-                    b.Property<string>("lineup")
-                        .IsRequired();
+                    b.Property<string>("photoURL");
 
                     b.Property<DateTime>("showtime");
 
                     b.Property<string>("title")
                         .IsRequired();
 
-                    b.Property<string>("venue")
-                        .IsRequired();
+                    b.Property<int>("venueId");
 
                     b.HasKey("id");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("venueId");
 
                     b.ToTable("Event");
                 });
@@ -119,29 +156,48 @@ namespace LocalShowsOnly.Data.Migrations
 
                     b.Property<int>("eventId");
 
+                    b.Property<string>("reviewText")
+                        .IsRequired();
+
                     b.HasKey("id");
 
                     b.HasIndex("ApplicationUserId");
 
+                    b.HasIndex("eventId");
+
                     b.ToTable("RSVP");
                 });
 
-            modelBuilder.Entity("LocalShowsOnly.Models.Review", b =>
+            modelBuilder.Entity("LocalShowsOnly.Models.Venue", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("eventId");
-
-                    b.Property<string>("reviewText")
+                    b.Property<string>("email")
                         .IsRequired();
 
-                    b.Property<int>("userId");
+                    b.Property<string>("phoneNumber")
+                        .IsRequired();
+
+                    b.Property<string>("photoURL")
+                        .IsRequired();
+
+                    b.Property<string>("venueAddress")
+                        .IsRequired();
+
+                    b.Property<string>("venueDetails")
+                        .IsRequired();
+
+                    b.Property<string>("venueName")
+                        .IsRequired();
+
+                    b.Property<string>("websiteURL")
+                        .IsRequired();
 
                     b.HasKey("id");
 
-                    b.ToTable("Review");
+                    b.ToTable("Venue");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -263,6 +319,11 @@ namespace LocalShowsOnly.Data.Migrations
                     b.HasOne("LocalShowsOnly.Models.ApplicationUser")
                         .WithMany("HostedEvents")
                         .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("LocalShowsOnly.Models.Venue")
+                        .WithMany("VenueEvents")
+                        .HasForeignKey("venueId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("LocalShowsOnly.Models.RSVP", b =>
@@ -270,6 +331,11 @@ namespace LocalShowsOnly.Data.Migrations
                     b.HasOne("LocalShowsOnly.Models.ApplicationUser")
                         .WithMany("Attending")
                         .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("LocalShowsOnly.Models.Event")
+                        .WithMany("RSVPs")
+                        .HasForeignKey("eventId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -10,22 +10,22 @@ using LocalShowsOnly.Models;
 
 namespace LocalShowsOnly.Controllers
 {
-    public class ReviewsController : Controller
+    public class BandsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ReviewsController(ApplicationDbContext context)
+        public BandsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Reviews
+        // GET: Bands
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Review.ToListAsync());
+            return View(await _context.Band.ToListAsync());
         }
 
-        // GET: Reviews/Details/5
+        // GET: Bands/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace LocalShowsOnly.Controllers
                 return NotFound();
             }
 
-            var review = await _context.Review
+            var band = await _context.Band
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (review == null)
+            if (band == null)
             {
                 return NotFound();
             }
 
-            return View(review);
+            return View(band);
         }
 
-        // GET: Reviews/Create
+        // GET: Bands/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Reviews/Create
+        // POST: Bands/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,reviewText,eventId,userId")] Review review)
+        public async Task<IActionResult> Create([Bind("id,bandName,bio,externalLink,genre,photoURL,isActive")] Band band)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(review);
+                _context.Add(band);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(review);
+            return View(band);
         }
 
-        // GET: Reviews/Edit/5
+        // GET: Bands/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace LocalShowsOnly.Controllers
                 return NotFound();
             }
 
-            var review = await _context.Review.FindAsync(id);
-            if (review == null)
+            var band = await _context.Band.FindAsync(id);
+            if (band == null)
             {
                 return NotFound();
             }
-            return View(review);
+            return View(band);
         }
 
-        // POST: Reviews/Edit/5
+        // POST: Bands/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,reviewText,eventId,userId")] Review review)
+        public async Task<IActionResult> Edit(int id, [Bind("id,bandName,bio,externalLink,genre,photoURL,isActive")] Band band)
         {
-            if (id != review.id)
+            if (id != band.id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace LocalShowsOnly.Controllers
             {
                 try
                 {
-                    _context.Update(review);
+                    _context.Update(band);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReviewExists(review.id))
+                    if (!BandExists(band.id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace LocalShowsOnly.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(review);
+            return View(band);
         }
 
-        // GET: Reviews/Delete/5
+        // GET: Bands/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace LocalShowsOnly.Controllers
                 return NotFound();
             }
 
-            var review = await _context.Review
+            var band = await _context.Band
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (review == null)
+            if (band == null)
             {
                 return NotFound();
             }
 
-            return View(review);
+            return View(band);
         }
 
-        // POST: Reviews/Delete/5
+        // POST: Bands/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var review = await _context.Review.FindAsync(id);
-            _context.Review.Remove(review);
+            var band = await _context.Band.FindAsync(id);
+            _context.Band.Remove(band);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ReviewExists(int id)
+        private bool BandExists(int id)
         {
-            return _context.Review.Any(e => e.id == id);
+            return _context.Band.Any(e => e.id == id);
         }
     }
 }

@@ -17,14 +17,15 @@ namespace LocalShowsOnly.Models
         public int hostId { get; set; }
         [Required]
         public string title { get; set; }
+        
         [Required]
-        public string lineup { get; set; }
-        [Required]
-        public string venue { get; set; }
+        public int venueId { get; set; }
         [Required]
         public DateTime showtime { get; set; }
         [Required]
-        public string FBLink { get; set; }
+        public string externalLink { get; set; }
+        public string photoURL { get; set; }
 
+        public virtual ICollection<RSVP> RSVPs { get; set; }
     }
 }
