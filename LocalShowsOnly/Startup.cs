@@ -71,7 +71,7 @@ namespace LocalShowsOnly
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Events}/{action=Index}/{id?}");
             });
         }
     }

@@ -10,36 +10,41 @@
     <h4>Event</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        @*<dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.hostId)
-        </dt>
-        <dd class = "col-sm-10">
+        </dt>*@
+        @*<dd class = "col-sm-10">
             @Html.DisplayFor(model => model.hostId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.title)
+        </dd>*@
+        <dt class="col-sm-2">
+            @*@Html.DisplayNameFor(model => model.photoURL)*@
+            Image
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.showtime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.showtime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.externalLink)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.externalLink)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.photoURL)
-        </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.photoURL)
         </dd>
+        <dt class="col-sm-2">
+            @*@Html.DisplayNameFor(model => model.title)*@
+            Event Title
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.title)
+        </dd>
+        <dt class="col-sm-2">
+            @*@Html.DisplayNameFor(model => model.showtime)*@
+            Date
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.showtime)
+        </dd>
+        <dt class="col-sm-2">
+            @*@Html.DisplayNameFor(model => model.externalLink)*@
+            Link
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.externalLink)
+        </dd>
+
     </dl>
 </div>
 <div>

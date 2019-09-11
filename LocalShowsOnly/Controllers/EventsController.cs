@@ -76,16 +76,13 @@ namespace LocalShowsOnly.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,hostId,title,venueId,showtime,externalLink,photoURL")] Event @event)
         {
-            //ModelState.Remove("UserId");
+            //Remove hostId, get ID of logged in user, add it to the Event obj
             ModelState.Remove("hostId");
             var user = await GetUserAsync();
             @event.hostId = user.Id;
 
             if (ModelState.IsValid)
             {
-                
-                //@event.hostId = Int32.Parse(user.Id);
-                
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -96,10 +93,13 @@ namespace LocalShowsOnly.Controllers
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
             }
+            var venues = await _context.Venue.ToListAsync();
+            ViewData["Venues"] = new SelectList(_context.Venue, "id", "venueName");
 
             var @event = await _context.Event.FindAsync(id);
             if (@event == null)
@@ -120,6 +120,10 @@ namespace LocalShowsOnly.Controllers
             {
                 return NotFound();
             }
+            //Remove hostId, get ID of logged in user, add it to the Event obj
+            ModelState.Remove("hostId");
+            var user = await GetUserAsync();
+            @event.hostId = user.Id;
 
             if (ModelState.IsValid)
             {
