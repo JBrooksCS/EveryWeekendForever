@@ -13,33 +13,34 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="hostId" class="control-label"></label>
                 <input asp-for="hostId" class="form-control" />
                 <span asp-validation-for="hostId" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
-                <label asp-for="title" class="control-label"></label>
+                <label asp-for="title" class="control-label">Event Title</label>
                 <input asp-for="title" class="form-control" />
                 <span asp-validation-for="title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="venueId" class="control-label"></label>
-                <select asp-for="venueId" class="form-control" asp-items="ViewBag.venueId"></select>
+                <label asp-for="venueId" class="control-label">Venue</label>
+                <select asp-for="venueId" class="form-control" asp-items="ViewBag.Venues"></select>
                 <span asp-validation-for="venueId" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="showtime" class="control-label"></label>
+                <label asp-for="showtime" class="control-label">Date & Time</label>
                 <input asp-for="showtime" class="form-control" />
                 <span asp-validation-for="showtime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="externalLink" class="control-label"></label>
+                <label asp-for="externalLink" class="control-label">Event Link (optional)</label>
                 <input asp-for="externalLink" class="form-control" />
                 <span asp-validation-for="externalLink" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="photoURL" class="control-label"></label>
+                <label asp-for="photoURL" class="control-label">Photo URL</label>
                 <input asp-for="photoURL" class="form-control" />
                 <span asp-validation-for="photoURL" class="text-danger"></span>
             </div>
