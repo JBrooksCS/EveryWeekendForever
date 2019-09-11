@@ -52,6 +52,8 @@ namespace LocalShowsOnly.Controllers
             {
                 return NotFound();
             }
+            var user = await GetUserAsync();
+            ViewBag.UserId = user.Id;
 
             return View(@event);
         }
