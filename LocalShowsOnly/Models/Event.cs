@@ -14,18 +14,21 @@ namespace LocalShowsOnly.Models
         public int id { get; set; }
         [ForeignKey("User")]
         [Required]
-        public int hostId { get; set; }
+        public string hostId { get; set; }
         [Required]
         public string title { get; set; }
         
         [Required]
         public int venueId { get; set; }
+        public Venue venue { get; set; }
         [Required]
         public DateTime showtime { get; set; }
         [Required]
         public string externalLink { get; set; }
         public string photoURL { get; set; }
 
+
         public virtual ICollection<RSVP> RSVPs { get; set; }
+        
     }
 }
