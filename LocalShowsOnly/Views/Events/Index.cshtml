@@ -1,4 +1,6 @@
-﻿@model IEnumerable<LocalShowsOnly.Models.Event>
+﻿
+
+@model IEnumerable<LocalShowsOnly.Models.Event>
 
 @{
     ViewData["Title"] = "Index";
@@ -31,35 +33,47 @@
                 @*@Html.DisplayNameFor(model => model.externalLink)*@
 
             </th>
-            
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.photoURL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.venue.venueName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.showtime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.externalLink)
-            </td>
-            
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.photoURL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.venue.venueName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.showtime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.externalLink)
+                </td>
+
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.id">Details</a> 
+                    @{
+
+                        if (item.hostId == ViewBag.UserId)
+                        {
+                            <a>|</a>
+                            <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
+                            <a>|</a>
+                            <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                        }
+                    }
+
+
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
