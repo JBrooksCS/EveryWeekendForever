@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Event Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,20 +13,25 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.hostId)
+                @*@Html.DisplayNameFor(model => model.photoURL)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.title)
+                @*@Html.DisplayNameFor(model => model.title)*@
+                WHAT
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.showtime)
+                @*@Html.DisplayNameFor(model => model.venue.venueName)*@
+                WHERE
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.externalLink)
+                @*@Html.DisplayNameFor(model => model.showtime)*@
+                WHEN
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.photoURL)
+                @*@Html.DisplayNameFor(model => model.externalLink)*@
+
             </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -34,10 +39,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.hostId)
+                @Html.DisplayFor(modelItem => item.photoURL)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.venue.venueName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.showtime)
@@ -45,9 +53,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.externalLink)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.photoURL)
-            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.id">Details</a> |

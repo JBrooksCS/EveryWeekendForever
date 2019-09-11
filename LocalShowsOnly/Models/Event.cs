@@ -14,7 +14,7 @@ namespace LocalShowsOnly.Models
         public int id { get; set; }
         [ForeignKey("User")]
         [Required]
-        public int hostId { get; set; }
+        public string hostId { get; set; }
         [Required]
         public string title { get; set; }
         

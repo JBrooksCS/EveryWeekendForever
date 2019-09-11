@@ -28,10 +28,11 @@ namespace LocalShowsOnly.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
+            var list = await _context.Event
+                .Include(e => e.venue)
+                .ToListAsync();
 
-            return View(await _context.Event
-                .Include(e => e.venue)    
-                .ToListAsync());
+            return View(list);
         }
 
         // GET: Events/Details/5
@@ -75,11 +76,16 @@ namespace LocalShowsOnly.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,hostId,title,venueId,showtime,externalLink,photoURL")] Event @event)
         {
-            ModelState.Remove("UserId");
+            //ModelState.Remove("UserId");
+            ModelState.Remove("hostId");
+            var user = await GetUserAsync();
+            @event.hostId = user.Id;
+
             if (ModelState.IsValid)
             {
-                var user = await GetUserAsync();
-                @event.hostId = Int32.Parse(user.Id);
+                
+                //@event.hostId = Int32.Parse(user.Id);
+                
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
