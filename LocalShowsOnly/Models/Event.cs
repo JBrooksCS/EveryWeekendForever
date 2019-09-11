@@ -20,12 +20,15 @@ namespace LocalShowsOnly.Models
         
         [Required]
         public int venueId { get; set; }
+        public Venue venue { get; set; }
         [Required]
         public DateTime showtime { get; set; }
         [Required]
         public string externalLink { get; set; }
         public string photoURL { get; set; }
 
+
         public virtual ICollection<RSVP> RSVPs { get; set; }
+        
     }
 }

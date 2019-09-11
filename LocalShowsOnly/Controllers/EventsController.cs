@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LocalShowsOnly.Data;
 using LocalShowsOnly.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using LocalShowsOnly.Models.ViewModels;
 
 namespace LocalShowsOnly.Controllers
 {
@@ -14,15 +18,20 @@ namespace LocalShowsOnly.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public EventsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public EventsController(ApplicationDbContext ctx, UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _userManager = userManager;
+            _context = ctx;
         }
 
         // GET: Events
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Event.ToListAsync());
+
+            return View(await _context.Event
+                .Include(e => e.venue)    
+                .ToListAsync());
         }
 
         // GET: Events/Details/5
@@ -44,20 +53,33 @@ namespace LocalShowsOnly.Controllers
         }
 
         // GET: Events/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var venues = await _context.Venue.ToListAsync();
+            ViewData["Venues"] = new SelectList(_context.Venue, "id", "venueName");
+
+            //List<SelectListItem> venueList = _context.Venue.ToList();
+            //ViewData["Venue"] = venueList;
+
+            //var viewModel = new EventVenueViewModel();
+            //viewModel.VenuesSelectListItem = new SelectList(_context.Venue, "id", "venueName");
+            //return View(viewModel);
             return View();
         }
 
         // POST: Events/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,hostId,title,venueId,showtime,externalLink,photoURL")] Event @event)
         {
+            ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
+                var user = await GetUserAsync();
+                @event.hostId = Int32.Parse(user.Id);
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -149,5 +171,16 @@ namespace LocalShowsOnly.Controllers
         {
             return _context.Event.Any(e => e.id == id);
         }
+        private Task<ApplicationUser> GetUserAsync()
+        {
+            return _userManager.GetUserAsync(HttpContext.User);
+        }
+
+        //public async List<Venue> GetAllVenues()
+        //{
+        //    List<Venue> venues = await _context.Venue.ToListAsync();
+        //    return View(venues);
+        //}
     }
+    
 }
