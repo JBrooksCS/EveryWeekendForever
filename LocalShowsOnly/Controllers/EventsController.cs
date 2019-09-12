@@ -32,6 +32,9 @@ namespace LocalShowsOnly.Controllers
                 .Include(e => e.venue)
                 .ToListAsync();
 
+            var user = await GetUserAsync();
+            ViewBag.UserId = user.Id;
+
             return View(list);
         }
 
@@ -49,6 +52,8 @@ namespace LocalShowsOnly.Controllers
             {
                 return NotFound();
             }
+            var user = await GetUserAsync();
+            ViewBag.UserId = user.Id;
 
             return View(@event);
         }
@@ -93,20 +98,30 @@ namespace LocalShowsOnly.Controllers
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-
+            //If the id isnt found, return NOT FOUND
             if (id == null)
             {
                 return NotFound();
             }
-            var venues = await _context.Venue.ToListAsync();
-            ViewData["Venues"] = new SelectList(_context.Venue, "id", "venueName");
-
+            
+            //Get the eent from the DB and store it in @event
             var @event = await _context.Event.FindAsync(id);
+            //If the id exists but the event is null, return NOT FOUND
             if (@event == null)
             {
                 return NotFound();
             }
-            return View(@event);
+            //Get the information about the currently logged in user
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user.Id == @event.hostId)
+            {
+                //Add a list of venues from the DB to ViewData for drop-down access
+                var venues = await _context.Venue.ToListAsync();
+                ViewData["Venues"] = new SelectList(_context.Venue, "id", "venueName");
+                return View(@event);
+            }
+            //return View(@event);            
+            return NotFound();
         }
 
         // POST: Events/Edit/5
@@ -162,8 +177,15 @@ namespace LocalShowsOnly.Controllers
             {
                 return NotFound();
             }
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user.Id == @event.hostId)
+            {
+                return View(@event);
+            }
 
-            return View(@event);
+            return NotFound();
+
+                
         }
 
         // POST: Events/Delete/5

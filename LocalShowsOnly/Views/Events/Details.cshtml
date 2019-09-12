@@ -48,6 +48,8 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
+    @if (Model.hostId == ViewBag.UserId){
+    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> <a>|</a>
+    }
     <a asp-action="Index">Back to List</a>
 </div>
