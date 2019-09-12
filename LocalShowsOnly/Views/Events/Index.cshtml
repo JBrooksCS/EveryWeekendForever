@@ -58,16 +58,26 @@
                 @Html.DisplayFor(modelItem => item.externalLink)
             </td>
 
-            <td>
-                <form asp-action="AddAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
-                    <input type="submit" name="attend" value="Attend" />
-                </form>
-            </td>
-            <td>
-                <form asp-action="RemoveAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
-                    <input type="submit" name="remove" value="Remove" />
-                </form>
-            </td>
+
+            @{
+                if (ViewBag.AttendingList.Contains(item.id))
+                {
+                    <td>
+                        <form asp-action="RemoveAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
+                            <input type="submit" name="not attending" value="You're Attending" style="background-color:lightgreen" />
+                        </form>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <form asp-action="AddAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
+                            <input type="submit" name="attend" value="Click to Attend" style="background-color:lightblue" />
+                        </form>
+                    </td>
+                }
+            }
+
             <td>
                 <form>
                     <input type="submit" name="details" value="Details" formaction="/Events/Details/@item.id" formmethod="get" />

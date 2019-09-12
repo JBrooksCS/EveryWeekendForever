@@ -30,6 +30,7 @@ namespace LocalShowsOnly.Controllers
         {
             var list = await _context.Event
                 .Include(e => e.venue)
+                //.Include(e => e.RSVPs)
                 .ToListAsync();
 
             var user = await GetUserAsync();
@@ -41,7 +42,11 @@ namespace LocalShowsOnly.Controllers
             else
             {
                 ViewBag.UserId = user.Id;
+                var attendingList = await _context.RSVP.Where(e => e.attendeeId == user.Id).Select(e => e.eventId).ToListAsync();
+                //var attendingList = await _context.RSVP.Where(e => e.attendeeId == user.Id).ToListAsync();
+                ViewBag.AttendingList = attendingList;
             }
+
 
             return View(list);
         }
