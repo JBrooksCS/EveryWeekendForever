@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LocalShowsOnly.Data;
 using LocalShowsOnly.Models;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace LocalShowsOnly.Controllers
 {
@@ -14,9 +16,11 @@ namespace LocalShowsOnly.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public RSVPsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public RSVPsController(ApplicationDbContext ctx, UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _userManager = userManager;
+            _context = ctx;
         }
 
         // GET: RSVPs
@@ -115,6 +119,62 @@ namespace LocalShowsOnly.Controllers
             }
             return View(rSVP);
         }
+        //POST RSVPs/AddAttendee/5
+        [HttpPost, ActionName("AddAttendee")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddAttendee(int showId)
+        {
+            var user = await GetUserAsync();
+            if (user == null)
+            {
+                return RedirectToAction("LogIn", "Account");
+            }
+            //This is just a check that the user isn't already attending - shouldnt be possible
+            else if (UserIsAttending(showId, user.Id))
+            {
+                return RedirectToAction("Index", "Events");
+            }
+            else
+            {
+                var newRSVP = new RSVP() {
+                    eventId = showId,
+                    attendeeId = user.Id,
+                    reviewText = null
+                };
+                _context.Add(newRSVP);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index", "Events");
+        }
+        //POST RSVPs/RemoveAttendee/5
+        [HttpPost, ActionName("RemoveAttendee")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveAttendee(int showId)
+        {
+            var user = await GetUserAsync();
+            if (user == null)
+            {
+                return RedirectToAction("LogIn", "Account");
+            }
+            //This is just a check that the user is in fact attending 
+            else if (!UserIsAttending(showId, user.Id))
+            {
+                return RedirectToAction("Index", "Events");
+            }
+            else
+            {
+                var rSVP = await _context.RSVP.FirstOrDefaultAsync(m => m.attendeeId == user.Id && m.eventId == showId);
+
+                if (rSVP == null)
+                {
+                    return NotFound();
+                }
+                _context.Remove(rSVP);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index", "Events");
+        }
+
 
         // GET: RSVPs/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -148,6 +208,14 @@ namespace LocalShowsOnly.Controllers
         private bool RSVPExists(int id)
         {
             return _context.RSVP.Any(e => e.id == id);
+        }
+        private bool UserIsAttending(int show_id, string attendee_id)
+        {
+            return _context.RSVP.Any(e => e.eventId == show_id && e.attendeeId == attendee_id);
+        }
+        private Task<ApplicationUser> GetUserAsync()
+        {
+            return _userManager.GetUserAsync(HttpContext.User);
         }
     }
 }

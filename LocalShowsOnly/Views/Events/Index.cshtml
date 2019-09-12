@@ -41,40 +41,58 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.photoURL)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.venue.venueName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.showtime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.externalLink)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.photoURL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.venue.venueName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.showtime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.externalLink)
+            </td>
 
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.id">Details</a> 
-                    @{
+            <td>
+                <form asp-action="AddAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
+                    <input type="submit" name="attend" value="Attend" />
+                </form>
+            </td>
+            <td>
+                <form asp-action="RemoveAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
+                    <input type="submit" name="remove" value="Remove" />
+                </form>
+            </td>
+            <td>
+                <form>
+                    <input type="submit" name="details" value="Details" formaction="/Events/Details/@item.id" formmethod="get" />
+                </form>
+            </td>
 
-                        if (item.hostId == ViewBag.UserId)
-                        {
-                            <a>|</a>
-                            <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
-                            <a>|</a>
-                            <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-                        }
+
+
+            <td>
+                <a asp-action="Details" asp-route-id="@item.id">Details</a>
+                @{
+
+                    if (item.hostId == ViewBag.UserId)
+                    {
+                        <a>|</a>
+                        <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
+                        <a>|</a>
+                        <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
                     }
+                }
 
 
 
-                </td>
-            </tr>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
