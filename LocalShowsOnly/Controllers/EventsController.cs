@@ -33,7 +33,15 @@ namespace LocalShowsOnly.Controllers
                 .ToListAsync();
 
             var user = await GetUserAsync();
-            ViewBag.UserId = user.Id;
+            //Set userid to a string to avoid null being passed into viewbag
+            if (user == null)
+            {
+                ViewBag.UserId = "not_logged_in";
+            }
+            else
+            {
+                ViewBag.UserId = user.Id;
+            }
 
             return View(list);
         }
@@ -53,7 +61,15 @@ namespace LocalShowsOnly.Controllers
                 return NotFound();
             }
             var user = await GetUserAsync();
-            ViewBag.UserId = user.Id;
+            //Set userid to a string to avoid null being passed into viewbag
+            if (user == null)
+            {
+                ViewBag.UserId = "not_logged_in";
+            }
+            else
+            {
+                ViewBag.UserId = user.Id;
+            }
 
             return View(@event);
         }
