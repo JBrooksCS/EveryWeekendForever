@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LocalShowsOnly.Data;
 using LocalShowsOnly.Models;
 using Microsoft.AspNetCore.Identity;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace LocalShowsOnly.Controllers
 {
@@ -120,6 +120,7 @@ namespace LocalShowsOnly.Controllers
             return View(rSVP);
         }
         //POST RSVPs/AddAttendee/5
+        [Authorize]
         [HttpPost, ActionName("AddAttendee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddAttendee(int showId)

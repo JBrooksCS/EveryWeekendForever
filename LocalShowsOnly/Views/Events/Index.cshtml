@@ -9,7 +9,7 @@
 <h1>Local Shows in Nashville</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create Event</a>
 </p>
 <table class="table">
     <thead>
@@ -29,13 +29,9 @@
                 @*@Html.DisplayNameFor(model => model.showtime)*@
                 WHEN
             </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.externalLink)*@
-                Link
+            
 
-            </th>
-
-            <th></th>
+            
         </tr>
     </thead>
     <tbody>
@@ -57,14 +53,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.externalLink)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RSVPs.Count) going
+               
+            </td>
 
 
             @{
-                if (ViewBag.AttendingList.Contains(item.id))
+                if (ViewBag.AttendingList!= null && ViewBag.AttendingList.Contains(item.id))
                 {
                     <td>
                         <form asp-action="RemoveAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
-                            <input type="submit" name="not attending" value="You're Attending" style="background-color:lightgreen" />
+                            <input type="submit" name="not attending" value="You're Going" style="background-color:lightgreen" />
                         </form>
                     </td>
                 }
@@ -87,12 +87,12 @@
 
 
             <td>
-                <a asp-action="Details" asp-route-id="@item.id">Details</a>
+                @*<a asp-action="Details" asp-route-id="@item.id">Details</a>*@
                 @{
 
                     if (item.hostId == ViewBag.UserId)
                     {
-                        <a>|</a>
+                        
                         <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
                         <a>|</a>
                         <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
