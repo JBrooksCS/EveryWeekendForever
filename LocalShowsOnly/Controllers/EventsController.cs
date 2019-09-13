@@ -30,10 +30,24 @@ namespace LocalShowsOnly.Controllers
         {
             var list = await _context.Event
                 .Include(e => e.venue)
+                .Include(e => e.RSVPs)
                 .ToListAsync();
 
             var user = await GetUserAsync();
-            ViewBag.UserId = user.Id;
+            //Set userid to a string to avoid null being passed into viewbag
+            if (user == null)
+            {
+                ViewBag.UserId = "not_logged_in";
+                var attendingList = new List<RSVP>();
+            }
+            else
+            {
+                ViewBag.UserId = user.Id;
+                var attendingList = await _context.RSVP.Where(e => e.attendeeId == user.Id).Select(e => e.eventId).ToListAsync();
+                ViewBag.AttendingList = attendingList;
+            }
+
+
 
             return View(list);
         }
@@ -53,7 +67,15 @@ namespace LocalShowsOnly.Controllers
                 return NotFound();
             }
             var user = await GetUserAsync();
-            ViewBag.UserId = user.Id;
+            //Set userid to a string to avoid null being passed into viewbag
+            if (user == null)
+            {
+                ViewBag.UserId = "not_logged_in";
+            }
+            else
+            {
+                ViewBag.UserId = user.Id;
+            }
 
             return View(@event);
         }
@@ -79,6 +101,7 @@ namespace LocalShowsOnly.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("id,hostId,title,venueId,showtime,externalLink,photoURL")] Event @event)
         {
             //Remove hostId, get ID of logged in user, add it to the Event obj

@@ -9,7 +9,7 @@
 <h1>Local Shows in Nashville</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create Event</a>
 </p>
 <table class="table">
     <thead>
@@ -29,52 +29,80 @@
                 @*@Html.DisplayNameFor(model => model.showtime)*@
                 WHEN
             </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.externalLink)*@
-                Link
+            
 
-            </th>
-
-            <th></th>
+            
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.photoURL)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.venue.venueName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.showtime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.externalLink)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.photoURL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.venue.venueName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.showtime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.externalLink)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RSVPs.Count) going
+               
+            </td>
 
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.id">Details</a> 
-                    @{
 
-                        if (item.hostId == ViewBag.UserId)
-                        {
-                            <a>|</a>
-                            <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
-                            <a>|</a>
-                            <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-                        }
+            @{
+                if (ViewBag.AttendingList!= null && ViewBag.AttendingList.Contains(item.id))
+                {
+                    <td>
+                        <form asp-action="RemoveAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
+                            <input type="submit" name="not attending" value="You're Going" style="background-color:lightgreen" />
+                        </form>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <form asp-action="AddAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
+                            <input type="submit" name="attend" value="Click to Attend" style="background-color:lightblue" />
+                        </form>
+                    </td>
+                }
+            }
+
+            <td>
+                <form>
+                    <input type="submit" name="details" value="Details" formaction="/Events/Details/@item.id" formmethod="get" />
+                </form>
+            </td>
+
+
+
+            <td>
+                @*<a asp-action="Details" asp-route-id="@item.id">Details</a>*@
+                @{
+
+                    if (item.hostId == ViewBag.UserId)
+                    {
+                        
+                        <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
+                        <a>|</a>
+                        <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
                     }
+                }
 
 
 
-                </td>
-            </tr>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
