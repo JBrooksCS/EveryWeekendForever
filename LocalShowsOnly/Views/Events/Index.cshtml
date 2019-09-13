@@ -39,7 +39,7 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.photoURL)
+                <img src="@Url.Content(item.photoURL)" style="max-height: 100px; max-width:100px;" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.title)
