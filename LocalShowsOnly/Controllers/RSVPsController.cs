@@ -147,6 +147,12 @@ namespace LocalShowsOnly.Controllers
             }
             return RedirectToAction("Index", "Events");
         }
+        //GET RSVPs/AddAttendee/5
+        [HttpGet]
+        public IActionResult AddAttendee()
+        {
+            return RedirectToAction("Index", "Events");
+        }
         //POST RSVPs/RemoveAttendee/5
         [HttpPost, ActionName("RemoveAttendee")]
         [ValidateAntiForgeryToken]
