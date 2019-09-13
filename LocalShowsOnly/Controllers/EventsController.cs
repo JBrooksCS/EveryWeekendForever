@@ -79,7 +79,7 @@ namespace LocalShowsOnly.Controllers
 
             return View(@event);
         }
-
+        [Authorize]
         // GET: Events/Create
         public async Task<IActionResult> Create()
         {
@@ -117,7 +117,7 @@ namespace LocalShowsOnly.Controllers
             }
             return View(@event);
         }
-
+        [Authorize]
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -136,8 +136,13 @@ namespace LocalShowsOnly.Controllers
             }
             //Get the information about the currently logged in user
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            if (user.Id == @event.hostId)
+            //if (user == null)
+            //{
+            //    return NotFound
+            //}
+            if (user != null && user.Id == @event.hostId)
             {
+                
                 //Add a list of venues from the DB to ViewData for drop-down access
                 var venues = await _context.Venue.ToListAsync();
                 ViewData["Venues"] = new SelectList(_context.Venue, "id", "venueName");
@@ -152,6 +157,7 @@ namespace LocalShowsOnly.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("id,hostId,title,venueId,showtime,externalLink,photoURL")] Event @event)
         {
             if (id != @event.id)
@@ -185,7 +191,7 @@ namespace LocalShowsOnly.Controllers
             }
             return View(@event);
         }
-
+        [Authorize]
         // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -213,6 +219,7 @@ namespace LocalShowsOnly.Controllers
 
         // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
