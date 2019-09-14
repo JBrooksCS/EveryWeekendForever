@@ -39,7 +39,7 @@
         {
         <tr>
             <td>
-                <img src="@Url.Content(item.photoURL)" style="max-height: 100px; max-width:100px;" />
+                <img src="@Url.Content(item.photoURL)" style="max-height: 200px; max-width:200px;" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.title)
@@ -50,17 +50,30 @@
             <td>
                 @Html.DisplayFor(modelItem => item.showtime)
             </td>
+            @{
+                if (item.externalLink != null)
+                {
+                    <td>
+                        <a href="@Html.DisplayFor(modelItem => item.externalLink)" target="_blank">Link</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <p>
+                            &nbsp
+                        </p>
+                    </td>
+                }
+            }
             <td>
-                @Html.DisplayFor(modelItem => item.externalLink)
-            </td>
-            <td >
                 @Html.DisplayFor(modelItem => item.RSVPs.Count)&nbspgoing
             </td>
-            
+
 
 
             @{
-                if (ViewBag.AttendingList!= null && ViewBag.AttendingList.Contains(item.id))
+                if (ViewBag.AttendingList != null && ViewBag.AttendingList.Contains(item.id))
                 {
                     <td>
                         <form asp-action="RemoveAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
@@ -92,12 +105,12 @@
 
                     if (item.hostId == ViewBag.UserId)
                     {
-                                <div style="display:flex; flex-direction:row; ">
+                        <div style="display:flex; flex-direction:row; ">
 
-                                    <a asp-action="Edit" asp-route-id="@item.id" >Edit</a>
+                            <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
 
-                                    <a asp-action="Delete" asp-route-id="@item.id" style="margin-left:1em;">Delete</a>
-                                </div>
+                            <a asp-action="Delete" asp-route-id="@item.id" style="margin-left:1em;">Delete</a>
+                        </div>
                     }
                 }
 
