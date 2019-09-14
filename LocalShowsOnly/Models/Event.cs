@@ -17,7 +17,7 @@ namespace LocalShowsOnly.Models
         public string hostId { get; set; }
         [Required]
         [RegularExpression(@"^[0-9a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Special characters are not allowed")]
-        [StringLength(40)]
+        [StringLength(60)]
         public string title { get; set; }
         
         [Required]
@@ -26,7 +26,7 @@ namespace LocalShowsOnly.Models
         
         [Required, Column(TypeName = "Date"), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime showtime { get; set; }
-        [Required]
+        
         [StringLength(80)]
         public string externalLink { get; set; }
         public string photoURL { get; set; }
