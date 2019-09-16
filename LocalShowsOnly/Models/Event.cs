@@ -16,7 +16,7 @@ namespace LocalShowsOnly.Models
         [Required]
         public string hostId { get; set; }
         [Required]
-        [RegularExpression(@"^[0-9a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Special characters are not allowed")]
+        //[RegularExpression(@"^[0-9a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Special characters are not allowed")]
         [StringLength(60)]
         public string title { get; set; }
         
@@ -29,6 +29,7 @@ namespace LocalShowsOnly.Models
         
         [StringLength(80)]
         public string externalLink { get; set; }
+        
         public string photoURL { get; set; }
 
 

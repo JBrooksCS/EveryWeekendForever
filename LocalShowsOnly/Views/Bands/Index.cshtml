@@ -37,6 +37,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                <img src="@Url.Content(item.photoURL)" style="max-height: 200px; max-width:200px;" />
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.bandName)
             </td>
             <td>
@@ -55,9 +58,30 @@
                 @Html.DisplayFor(modelItem => item.isActive)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                <form>
+                    <input type="submit" name="details" value="Details" formaction="/Events/Details/@item.id" formmethod="get" />
+                </form>
+            </td>
+
+
+
+            <td>
+                @*<a asp-action="Details" asp-route-id="@item.id">Details</a>*@
+                @{
+
+                    if (item.hostId == ViewBag.UserId)
+                    {
+                        <div style="display:flex; flex-direction:row; ">
+
+                            <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
+
+                            <a asp-action="Delete" asp-route-id="@item.id" style="margin-left:1em;">Delete</a>
+                        </div>
+                    }
+                }
+
+
+
             </td>
         </tr>
 }
