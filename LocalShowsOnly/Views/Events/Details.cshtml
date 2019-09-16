@@ -4,10 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+    <h1> @Html.DisplayFor(model => model.title)</h1>
 
 <div>
-    <h4>Event</h4>
+    
     <hr />
     <dl class="row">
         @*<dt class = "col-sm-2">
@@ -18,31 +18,29 @@
         </dd>*@
         <dt class="col-sm-2">
             @*@Html.DisplayNameFor(model => model.photoURL)*@
-            Image
+            &nbsp
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.photoURL)
+            @*@Html.DisplayFor(model => model.photoURL)*@
+            <img src="@Url.Content(Model.photoURL)" alt="Image" style="max-height: 200px; max-width:200px;" />
+
         </dd>
+        @*<td>
+            <img src="@Url.Content(item.photoURL)" style="max-height: 200px; max-width:200px;" />
+        </td>*@
+        
         <dt class="col-sm-2">
-            @*@Html.DisplayNameFor(model => model.title)*@
-            Event Title
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.title)
-        </dd>
-        <dt class="col-sm-2">
-            @*@Html.DisplayNameFor(model => model.showtime)*@
+            
             Date
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.showtime)
         </dd>
         <dt class="col-sm-2">
-            @*@Html.DisplayNameFor(model => model.externalLink)*@
             Link
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.externalLink)
+            <a href="@Html.DisplayFor(model => model.externalLink)" target="_blank">@Html.DisplayFor(model => model.externalLink)</a>
         </dd>
 
     </dl>

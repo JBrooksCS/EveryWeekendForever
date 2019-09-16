@@ -15,29 +15,29 @@
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="bandName" class="control-label"></label>
+                    <label asp-for="bandName" class="control-label">Band Name</label>
                     <input asp-for="bandName" class="form-control" />
                     <span asp-validation-for="bandName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="bio" class="control-label"></label>
+                    <label asp-for="bio" class="control-label">About</label>
                     @*<input style="height:6em; width:30em;" asp-for="bio" class="form-control" />*@
                     <textarea asp-for="bio" class="form-control"></textarea>
                     <span asp-validation-for="bio" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="externalLink" class="control-label"></label>
+                    <label asp-for="externalLink" class="control-label">Link to Music / Website</label>
                     <input asp-for="externalLink" class="form-control" />
                     <span asp-validation-for="externalLink" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="genre" class="control-label"></label>
+                    <label asp-for="genre" class="control-label">Style of Music</label>
                     <input asp-for="genre" class="form-control" />
                     <span asp-validation-for="genre" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="photoURL" class="control-label"></label>
-                    <input type="file" name="file" id="file" />
+                    <label asp-for="photoURL" class="control-label">Band Photo</label>
+                    <input type="file" name="file" id="file" required="required" />
                 </div>
                 @*<div class="form-group form-check">
                     <label class="form-check-label">
