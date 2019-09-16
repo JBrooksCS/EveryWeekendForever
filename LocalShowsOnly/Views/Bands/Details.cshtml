@@ -4,48 +4,46 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+    <h1>@Html.DisplayFor(model => model.bandName)</h1>
 
 <div>
-    <h4>Band</h4>
+    
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.bandName)
+        <dt class="col-sm-2">
+            @*@Html.DisplayNameFor(model => model.photoURL)*@
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.bandName)
+        <dd class="col-sm-10">
+            <img src="@Url.Content(Model.photoURL)" alt="Image" style="max-height: 200px; max-width:200px;" />
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.bio)
+
+        <dt class="col-sm-2">
+            @*@Html.DisplayNameFor(model => model.externalLink)*@
+            Music / Website
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.bio)
+        <dd class="col-sm-10">
+            <a href="@Html.DisplayFor(model => model.externalLink)" target="_blank">@Html.DisplayFor(model => model.externalLink)</a>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.externalLink)
+        <dt class="col-sm-2">
+            @*@Html.DisplayNameFor(model => model.genre)*@
+            Style
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.externalLink)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.genre)
-        </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.genre)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.photoURL)
+        <dt class="col-sm-2">
+            @*@Html.DisplayNameFor(model => model.bio)*@
+            About
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.photoURL)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.bio)
         </dd>
-        <dt class = "col-sm-2">
+        @*<dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.isActive)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.isActive)
-        </dd>
+        </dd>*@
     </dl>
 </div>
 <div>
