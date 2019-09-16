@@ -1,10 +1,8 @@
 ﻿@model LocalShowsOnly.Models.Band
 
-@{
-    ViewData["Title"] = "Create";
-}
+
 @using (Html.BeginForm("Create",
-      "Products",
+      "Bands",
       FormMethod.Post,
       new { enctype = "multipart/form-data" }))
 {
@@ -41,11 +39,11 @@
                     <label asp-for="photoURL" class="control-label"></label>
                     <input type="file" name="file" id="file" />
                 </div>
-                <div class="form-group form-check">
+                @*<div class="form-group form-check">
                     <label class="form-check-label">
                         <input class="form-check-input" asp-for="isActive" /> @Html.DisplayNameFor(model => model.isActive)
                     </label>
-                </div>
+                </div>*@
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>

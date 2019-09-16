@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>BANDS</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,23 +13,26 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.bandName)
+                &nbsp
             </th>
             <th>
+                @*@Html.DisplayNameFor(model => model.bandName)*@
+                NAME
+            </th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.bio)
-            </th>
+            </th>*@
+        <th>
+            @*@Html.DisplayNameFor(model => model.externalLink)*@
+            &nbsp
+        </th>
             <th>
-                @Html.DisplayNameFor(model => model.externalLink)
+                @*@Html.DisplayNameFor(model => model.genre)*@
+                STYLE
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.genre)
-            </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.photoURL)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.isActive)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -42,21 +45,28 @@
             <td>
                 @Html.DisplayFor(modelItem => item.bandName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.bio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.externalLink)
-            </td>
+            
+            @{
+                if (item.externalLink != null)
+                {
+                    <td>
+                        <a href="@Html.DisplayFor(modelItem => item.externalLink)" target="_blank">Link</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <p>
+                            &nbsp
+                        </p>
+                    </td>
+                }
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.genre)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.photoURL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.isActive)
-            </td>
+            
+
             <td>
                 <form>
                     <input type="submit" name="details" value="Details" formaction="/Events/Details/@item.id" formmethod="get" />

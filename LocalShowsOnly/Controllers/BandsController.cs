@@ -25,6 +25,7 @@ namespace LocalShowsOnly.Controllers
         private readonly IHostingEnvironment _env;
         public BandsController(ApplicationDbContext ctx, UserManager<ApplicationUser> userManager, IHostingEnvironment env)
         {
+            ctx.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             _userManager = userManager;
             _context = ctx;
             _env = env;
@@ -92,7 +93,7 @@ namespace LocalShowsOnly.Controllers
             ModelState.Remove("hostId");
             var user = await GetUserAsync();
             band.hostId = user.Id;
-
+            band.isActive = true;
             if (ModelState.IsValid)
             {
                 try
@@ -151,16 +152,26 @@ namespace LocalShowsOnly.Controllers
             ModelState.Remove("hostId");
             var user = await GetUserAsync();
             band.hostId = user.Id;
+            bool newFilePresent = true;
+            if (file == null)
+            {
+                var @oldBand = await _context.Band.FindAsync(id);
+                band.photoURL = oldBand.photoURL;
+                newFilePresent = false;
+            }
 
             if (ModelState.IsValid)
             {
-                try
+                if (newFilePresent)
                 {
-                    band.photoURL = await SaveFile(file, user.Id);
-                }
-                catch (Exception ex)
-                {
-                    return NotFound();
+                    try
+                    {
+                        band.photoURL = await SaveFile(file, user.Id);
+                    }
+                    catch (Exception ex)
+                    {
+                        return NotFound();
+                    }
                 }
                 try
                 {

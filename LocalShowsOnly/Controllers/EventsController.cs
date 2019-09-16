@@ -216,7 +216,7 @@ namespace LocalShowsOnly.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(@event);
-            //return RedirectToAction("Edit", @event.id);
+            
         }
         [Authorize]
         // GET: Events/Delete/5
