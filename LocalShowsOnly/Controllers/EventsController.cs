@@ -33,12 +33,18 @@ namespace LocalShowsOnly.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             var list = await _context.Event
                 .Include(e => e.venue)
                 .Include(e => e.RSVPs)
+                .OrderBy(e => e.showtime)
                 .ToListAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                list = list.Where(s => s.title.ToLower().Contains(searchString.ToLower())).ToList();
+            }
 
             var user = await GetUserAsync();
             //Set userid to a string to avoid null being passed into viewbag

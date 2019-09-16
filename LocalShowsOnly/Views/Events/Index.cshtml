@@ -11,113 +11,130 @@
 <p>
     <a asp-action="Create">Create Event</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @*@Html.DisplayNameFor(model => model.photoURL)*@
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.title)*@
-                WHAT
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.venue.venueName)*@
-                WHERE
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.showtime)*@
-                WHEN
-            </th>
-            
+<p>
+    @using (Html.BeginForm())
+    {
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.photoURL)*@
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.title)*@
+                    WHAT
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.venue.venueName)*@
+                    WHERE
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.showtime)*@
+                    WHEN
+                </th>
 
-            
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                <img src="@Url.Content(item.photoURL)" style="max-height: 200px; max-width:200px;" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.venue.venueName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.showtime)
-            </td>
-            @{
-                if (item.externalLink != null)
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.showtime >= DateTime.Now)
                 {
-                    <td>
-                        <a href="@Html.DisplayFor(modelItem => item.externalLink)" target="_blank">Link</a>
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        <p>
-                            &nbsp
-                        </p>
-                    </td>
+                    <tr>
+                        <td>
+                            <img src="@Url.Content(item.photoURL)" style="max-height: 100px; max-width:100px;" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.venue.venueName)
+                        </td>
+                        <td>
+                            @*@Html.DisplayFor(modelItem => item.showtime)*@
+                            @item.showtime.ToString("MM/dd/yyyy")
+                        </td>
+                        @{
+                            if (item.externalLink != null)
+                            {
+                                <td>
+                                    <a href="@Html.DisplayFor(modelItem => item.externalLink)" target="_blank">Link</a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <p>
+                                        &nbsp
+                                    </p>
+                                </td>
+                            }
+                        }
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RSVPs.Count)&nbspgoing
+                        </td>
+
+
+
+                        @{
+                            if (ViewBag.AttendingList != null && ViewBag.AttendingList.Contains(item.id))
+                            {
+                                <td>
+                                    <form asp-action="RemoveAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
+                                        <input type="submit" name="not attending" value=" You're Going  " style="background-color:lightgreen" />
+                                    </form>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <form asp-action="AddAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
+                                        <input type="submit" name="attend" value="Click to Attend" style="background-color:lightblue" />
+                                    </form>
+                                </td>
+                            }
+                        }
+                        <td>
+                            <button>BUTTON</button>
+                        </td>
+
+                        <td>
+                            <form>
+                                <input type="submit" name="details" value="Details" formaction="/Events/Details/@item.id" formmethod="get" />
+                            </form>
+                        </td>
+
+
+
+
+                        <td>
+                            @*<a asp-action="Details" asp-route-id="@item.id">Details</a>*@
+                            @{
+
+                                if (item.hostId == ViewBag.UserId)
+                                {
+                                    <div style="display:flex; flex-direction:row; ">
+
+                                        <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
+
+                                        <a asp-action="Delete" asp-route-id="@item.id" style="margin-left:1em;">Delete</a>
+                                    </div>
+                                }
+                            }
+
+
+
+                        </td>
+                    </tr>
                 }
             }
-            <td>
-                @Html.DisplayFor(modelItem => item.RSVPs.Count)&nbspgoing
-            </td>
-
-
-
-            @{
-                if (ViewBag.AttendingList != null && ViewBag.AttendingList.Contains(item.id))
-                {
-                    <td>
-                        <form asp-action="RemoveAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
-                            <input type="submit" name="not attending" value=" You're Going  " style="background-color:lightgreen" />
-                        </form>
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        <form asp-action="AddAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
-                            <input type="submit" name="attend" value="Click to Attend" style="background-color:lightblue" />
-                        </form>
-                    </td>
-                }
-            }
-
-            <td>
-                <form>
-                    <input type="submit" name="details" value="Details" formaction="/Events/Details/@item.id" formmethod="get" />
-                </form>
-            </td>
-
-
-
-            <td>
-                @*<a asp-action="Details" asp-route-id="@item.id">Details</a>*@
-                @{
-
-                    if (item.hostId == ViewBag.UserId)
-                    {
-                        <div style="display:flex; flex-direction:row; ">
-
-                            <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
-
-                            <a asp-action="Delete" asp-route-id="@item.id" style="margin-left:1em;">Delete</a>
-                        </div>
-                    }
-                }
-
-
-
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
