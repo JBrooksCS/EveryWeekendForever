@@ -1,12 +1,18 @@
 ﻿
+@*@model PagedList.IPagedList<LocalShowsOnly.Models.Event>
+@using PagedList.Mvc;
 
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />*@
 @model IEnumerable<LocalShowsOnly.Models.Event>
 
 @{
     ViewData["Title"] = "Index";
 }
+@{
+    ViewBag.Title = "Index";
+}
 
-<h1>SHOWS</h1>
+<h1>[SHOWS]</h1>
 
 <p>
     <a asp-action="Create">Create Event</a>
@@ -15,8 +21,8 @@
     @using (Html.BeginForm())
     {
     <p>
-        Find by name: @Html.TextBox("SearchString")
-        <input type="submit" value="Search" />
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input class="search-btn" type="submit" value="Search" />
     </p>
 }
     </p>
@@ -26,17 +32,32 @@
                 <th>
                     @*@Html.DisplayNameFor(model => model.photoURL)*@
                 </th>
-                <th>
+                <th class="event-table-header">
                     @*@Html.DisplayNameFor(model => model.title)*@
                     WHAT
                 </th>
-                <th>
+                <th class="event-table-header">
                     @*@Html.DisplayNameFor(model => model.venue.venueName)*@
                     WHERE
                 </th>
-                <th>
+                <th class="event-table-header">
                     @*@Html.DisplayNameFor(model => model.showtime)*@
                     WHEN
+                </th>
+                <th>
+                    &nbsp
+                </th>
+                <th>
+                    &nbsp
+                </th>
+                <th>
+                    &nbsp
+                </th>
+                <th>
+                    &nbsp
+                </th>
+                <th>
+                    &nbsp
                 </th>
 
 
@@ -48,24 +69,24 @@
             {
                 if (item.showtime >= DateTime.Now)
                 {
-                    <tr>
-                        <td>
-                            <img src="@Url.Content(item.photoURL)" style="max-height: 100px; max-width:100px;" />
+                    <tr class="event-row">
+                        <td class="event-image">
+                            <img src="@Url.Content(item.photoURL)" style="max-height: 200px; max-width:200px;" />
                         </td>
-                        <td>
+                        <td class="event-title">
                             @Html.DisplayFor(modelItem => item.title)
                         </td>
-                        <td>
+                        <td class="event-venue">
                             @Html.DisplayFor(modelItem => item.venue.venueName)
                         </td>
-                        <td>
+                        <td class="event-showtime">
                             @*@Html.DisplayFor(modelItem => item.showtime)*@
                             @item.showtime.ToString("MM/dd/yyyy")
                         </td>
                         @{
                             if (item.externalLink != null)
                             {
-                                <td>
+                                <td class="event-link">
                                     <a href="@Html.DisplayFor(modelItem => item.externalLink)" target="_blank">Link</a>
                                 </td>
                             }
@@ -78,7 +99,7 @@
                                 </td>
                             }
                         }
-                        <td>
+                        <td class="event-rsvp">
                             @Html.DisplayFor(modelItem => item.RSVPs.Count)&nbspgoing
                         </td>
 
@@ -87,7 +108,7 @@
                         @{
                             if (ViewBag.AttendingList != null && ViewBag.AttendingList.Contains(item.id))
                             {
-                                <td>
+                                <td class="event-going">
                                     <form asp-action="RemoveAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
                                         <input type="submit" name="not attending" value=" You're Going  " style="background-color:lightgreen" />
                                     </form>
@@ -95,22 +116,23 @@
                             }
                             else
                             {
-                                <td>
+                                <td class="event-not-going">
                                     <form asp-action="AddAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
                                         <input type="submit" name="attend" value="Click to Attend" style="background-color:lightblue" />
                                     </form>
                                 </td>
                             }
                         }
-                        <td>
+                        @*<td>
                             <button>BUTTON</button>
-                        </td>
+                        </td>*@
 
-                        <td>
+                        <td class="event-details">
                             <form>
                                 <input type="submit" name="details" value="Details" formaction="/Events/Details/@item.id" formmethod="get" />
                             </form>
                         </td>
+                        
 
 
 
@@ -123,9 +145,9 @@
                                 {
                                     <div style="display:flex; flex-direction:row; ">
 
-                                        <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
+                                        <a class="event-edit" asp-action="Edit" asp-route-id="@item.id">Edit</a>
 
-                                        <a asp-action="Delete" asp-route-id="@item.id" style="margin-left:1em;">Delete</a>
+                                        <a class="event-delete" asp-action="Delete" asp-route-id="@item.id" style="margin-left:1em;">Delete</a>
                                     </div>
                                 }
                             }
@@ -138,3 +160,10 @@
             }
         </tbody>
     </table>
+    @*<br />
+    <div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </div>*@

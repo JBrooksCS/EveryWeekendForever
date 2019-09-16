@@ -14,6 +14,7 @@ using LocalShowsOnly.Models.ViewModels;
 using System.IO;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.AspNetCore.Hosting;
+using PagedList;
 
 namespace LocalShowsOnly.Controllers
 {
@@ -35,6 +36,8 @@ namespace LocalShowsOnly.Controllers
         // GET: Events
         public async Task<IActionResult> Index(string searchString)
         {
+            
+
             var list = await _context.Event
                 .Include(e => e.venue)
                 .Include(e => e.RSVPs)
@@ -59,6 +62,7 @@ namespace LocalShowsOnly.Controllers
                 var attendingList = await _context.RSVP.Where(e => e.attendeeId == user.Id).Select(e => e.eventId).ToListAsync();
                 ViewBag.AttendingList = attendingList;
             }
+            
             return View(list);
         }
 
