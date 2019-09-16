@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>BANDS</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,23 +13,26 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.bandName)
+                &nbsp
             </th>
             <th>
+                @*@Html.DisplayNameFor(model => model.bandName)*@
+                NAME
+            </th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.bio)
-            </th>
+            </th>*@
+        <th>
+            @*@Html.DisplayNameFor(model => model.externalLink)*@
+            &nbsp
+        </th>
             <th>
-                @Html.DisplayNameFor(model => model.externalLink)
+                @*@Html.DisplayNameFor(model => model.genre)*@
+                STYLE
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.genre)
-            </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.photoURL)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.isActive)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -37,27 +40,58 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                <img src="@Url.Content(item.photoURL)" style="max-height: 200px; max-width:200px;" />
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.bandName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.bio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.externalLink)
-            </td>
+            
+            @{
+                if (item.externalLink != null)
+                {
+                    <td>
+                        <a href="@Html.DisplayFor(modelItem => item.externalLink)" target="_blank">Link</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <p>
+                            &nbsp
+                        </p>
+                    </td>
+                }
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.genre)
             </td>
+            
+
             <td>
-                @Html.DisplayFor(modelItem => item.photoURL)
+                <form>
+                    <input type="submit" name="details" value="Details" formaction="/Events/Details/@item.id" formmethod="get" />
+                </form>
             </td>
+
+
+
             <td>
-                @Html.DisplayFor(modelItem => item.isActive)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                @*<a asp-action="Details" asp-route-id="@item.id">Details</a>*@
+                @{
+
+                    if (item.hostId == ViewBag.UserId)
+                    {
+                        <div style="display:flex; flex-direction:row; ">
+
+                            <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
+
+                            <a asp-action="Delete" asp-route-id="@item.id" style="margin-left:1em;">Delete</a>
+                        </div>
+                    }
+                }
+
+
+
             </td>
         </tr>
 }

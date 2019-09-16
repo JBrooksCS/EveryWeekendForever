@@ -25,6 +25,8 @@ namespace LocalShowsOnly.Controllers
         private readonly IHostingEnvironment _env;
         public EventsController(ApplicationDbContext ctx, UserManager<ApplicationUser> userManager, IHostingEnvironment env)
         {
+            //This next line was added to prevent tracking issues when no image is selected for Event Edit Post
+            ctx.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             _userManager = userManager;
             _context = ctx;
             _env = env;
@@ -51,9 +53,6 @@ namespace LocalShowsOnly.Controllers
                 var attendingList = await _context.RSVP.Where(e => e.attendeeId == user.Id).Select(e => e.eventId).ToListAsync();
                 ViewBag.AttendingList = attendingList;
             }
-
-
-
             return View(list);
         }
 
@@ -81,7 +80,6 @@ namespace LocalShowsOnly.Controllers
             {
                 ViewBag.UserId = user.Id;
             }
-
             return View(@event);
         }
         [Authorize]
@@ -91,12 +89,7 @@ namespace LocalShowsOnly.Controllers
             var venues = await _context.Venue.ToListAsync();
             ViewData["Venues"] = new SelectList(_context.Venue, "id", "venueName");
 
-            //List<SelectListItem> venueList = _context.Venue.ToList();
-            //ViewData["Venue"] = venueList;
-
-            //var viewModel = new EventVenueViewModel();
-            //viewModel.VenuesSelectListItem = new SelectList(_context.Venue, "id", "venueName");
-            //return View(viewModel);
+          
             return View();
         }
 
@@ -182,17 +175,28 @@ namespace LocalShowsOnly.Controllers
             ModelState.Remove("hostId");
             var user = await GetUserAsync();
             @event.hostId = user.Id;
+            bool newFilePresent = true;
+            if(file == null)
+            {
+                var @oldEvent = await _context.Event.FindAsync(id);
+                @event.photoURL = oldEvent.photoURL;
+                newFilePresent = false;
+            }
 
             if (ModelState.IsValid)
             {
-                try
+                if (newFilePresent)
                 {
-                    @event.photoURL = await SaveFile(file, user.Id);
+                    try
+                    {
+                        @event.photoURL = await SaveFile(file, user.Id);
+                    }
+                    catch (Exception ex)
+                    {
+                        return NotFound();
+                    }
                 }
-                catch (Exception ex)
-                {
-                    return NotFound();
-                }
+
                 try
                 {
                     _context.Update(@event);
@@ -212,6 +216,7 @@ namespace LocalShowsOnly.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(@event);
+            
         }
         [Authorize]
         // GET: Events/Delete/5

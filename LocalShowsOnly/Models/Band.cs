@@ -19,10 +19,14 @@ namespace LocalShowsOnly.Models
         public string externalLink { get; set; }
         [Required]
         public string genre { get; set; }
-        [Required]
+        
         public string photoURL { get; set; }
+        public string linkToMusic { get; set; }
         [Required]
         public bool isActive { get; set; }
+        [Required]
+        public string hostId { get; set; }
+
 
     }
 }
