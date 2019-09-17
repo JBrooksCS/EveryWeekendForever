@@ -71,7 +71,7 @@
                 {
             <tr class="event-row">
                 <td class="event-image">
-                    <img src="@Url.Content(item.photoURL)" style="max-height: 200px; max-width:200px;" />
+                    <img src="@Url.Content(item.photoURL)" style="max-height: 200px; max-width:200px; border:1px solid #021a40;" />
                 </td>
                 <td class="event-title">
                     @Html.DisplayFor(modelItem => item.title)
@@ -121,7 +121,7 @@
                         {
                             <td class="event-going">
                                 <form asp-action="RemoveAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
-                                    <input type="submit" name="not attending" value=" You're Going  " style="background-color:lightgreen" />
+                                    <input class="btn btn-primary" type="submit" name="not attending" value=" You're Going  " style="background-color:lightgreen" />
                                 </form>
                             </td>
                         }
@@ -129,7 +129,7 @@
                         {
                             <td class="event-not-going">
                                 <form asp-action="AddAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
-                                    <input type="submit" name="attend" value="Click to Attend" style="background-color:lightblue" />
+                                    <input class="btn btn-light" type="submit" name="attend" value="Click to Attend" style="background-color:lightblue" />
                                 </form>
                             </td>
                         }
