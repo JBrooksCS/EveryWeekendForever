@@ -1,180 +1,137 @@
 ﻿
-@*@model PagedList.IPagedList<LocalShowsOnly.Models.Event>
-@using PagedList.Mvc;
 
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />*@
 @model IEnumerable<LocalShowsOnly.Models.Event>
 
 @{
     ViewData["Title"] = "Index";
 }
-@{
-    ViewBag.Title = "Index";
-}
 
-<h2>[SHOWS]</h2>
+<h1>SHOWS</h1>
 
-@*<p>
-    <a asp-action="Create">Create Event</a>
-</p>*@
 <p>
-    @using (Html.BeginForm())
-    {
-    <p>
-         @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input class="search-btn" type="submit" value="Search" />
-    </p>
-}
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.photoURL)*@
-                </th>
-                <th class="event-table-header">
-                    @*@Html.DisplayNameFor(model => model.title)*@
-                    WHAT
-                </th>
-                <th class="event-table-header">
-                    @*@Html.DisplayNameFor(model => model.venue.venueName)*@
-                    WHERE
-                </th>
-                <th class="event-table-header">
-                    @*@Html.DisplayNameFor(model => model.showtime)*@
-                    WHEN
-                </th>
-                <th>
-                    &nbsp
-                </th>
-                <th>
-                    &nbsp
-                </th>
-                <th>
-                    &nbsp
-                </th>
-                <th>
-                    &nbsp
-                </th>
-                <th>
-                    &nbsp
-                </th>
+    <a asp-action="Create">Create Event</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.photoURL)*@
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.title)*@
+                WHAT
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.venue.venueName)*@
+                WHERE
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.showtime)*@
+                WHEN
+            </th>
+            
 
-
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.showtime >= DateTime.Now)
             {
-                if (item.showtime >= DateTime.Now)
-                {
-            <tr class="event-row">
-                <td class="event-image">
-                    <img src="@Url.Content(item.photoURL)" style="max-height: 200px; max-width:200px; border:1px solid #021a40;" />
-                </td>
-                <td class="event-title">
-                    @Html.DisplayFor(modelItem => item.title)
-                </td>
-                <td class="event-venue">
-                    @Html.DisplayFor(modelItem => item.venue.venueName)
-                </td>
-                <td class="event-showtime">
-                    @*@Html.DisplayFor(modelItem => item.showtime)*@
-                    @item.showtime.ToString("MM/dd/yyyy")
-                </td>
-                @{
-                if (item.externalLink != null)
-                {
-                        <td class="event-link">
-                            <a href="@Html.DisplayFor(modelItem => item.externalLink)" target="_blank">Link</a>
-                        </td>
-                }
-                else
-                {
-                        <td>
-                            <p>
-                                &nbsp
-                            </p>
-                        </td>
-                }
-                }
-                @{ if (item.id ==  ViewBag.top)
-
-                {
-                        <td class="event-rsvp">
-                            @Html.DisplayFor(modelItem => item.RSVPs.Count)&nbspgoing
-                        </td>
-                }
-                else
-                {
-                    <td >
+        <tr>
+            <td>
+                <img src="@Url.Content(item.photoURL)" style="max-height: 200px; max-width:200px;" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.venue.venueName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.showtime)
+            </td>
+            @{
+            if (item.externalLink != null)
+            {
+                    <td>
+                        <a href="@Html.DisplayFor(modelItem => item.externalLink)" target="_blank">Link</a>
+                    </td>
+            }
+            else
+            {
+                    <td>
+                        <p>
+                            &nbsp
+                        </p>
+                    </td>
+            }
+            }
+            @{ if (item.id == ViewBag.top)
+            {
+                    <td class="event-rsvp">
                         @Html.DisplayFor(modelItem => item.RSVPs.Count)&nbspgoing
                     </td>
-                    }
+            }
+            else
+            {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RSVPs.Count)&nbspgoing
+                    </td>
+            }
+            }
+
+
+
+
+                @{
+            if (ViewBag.AttendingList != null && ViewBag.AttendingList.Contains(item.id))
+            {
+                        <td>
+                            <form asp-action="RemoveAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
+                                <input type="submit" name="not attending" value=" You're Going  " style="background-color:lightgreen" />
+                            </form>
+                        </td>
+            }
+            else
+            {
+                        <td>
+                            <form asp-action="AddAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
+                                <input type="submit" name="attend" value="Click to Attend" style="background-color:lightblue" />
+                            </form>
+                        </td>
+            }
                 }
 
+                <td>
+                    <form>
+                        <input type="submit" name="details" value="Details" formaction="/Events/Details/@item.id" formmethod="get" />
+                    </form>
+                </td>
 
 
+
+                <td>
+                    @*<a asp-action="Details" asp-route-id="@item.id">Details</a>*@
                     @{
-                        if (ViewBag.AttendingList != null && ViewBag.AttendingList.Contains(item.id))
-                        {
-                            <td class="event-going">
-                                <form asp-action="RemoveAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
-                                    <input class="btn btn-primary" type="submit" name="not attending" value=" You're Going  " style="background-color:lightgreen" />
-                                </form>
-                            </td>
-                        }
-                        else
-                        {
-                            <td class="event-not-going">
-                                <form asp-action="AddAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
-                                    <input class="btn btn-light" type="submit" name="attend" value="Click to Attend" style="background-color:lightblue" />
-                                </form>
-                            </td>
-                        }
+
+            if (item.hostId == ViewBag.UserId)
+            {
+                            <div style="display:flex; flex-direction:row; ">
+
+                                <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
+
+                                <a asp-action="Delete" asp-route-id="@item.id" style="margin-left:1em;">Delete</a>
+                            </div>
+            }
                     }
-                    @*<td>
-                <button>BUTTON</button>
-            </td>*@
-
-                    <td class="event-details">
-                        <form>
-                            <input type="submit" name="details" value="Details" formaction="/Events/Details/@item.id" formmethod="get" />
-                        </form>
-                    </td>
 
 
 
-
-
-                    <td>
-                        @*<a asp-action="Details" asp-route-id="@item.id">Details</a>*@
-                        @{
-
-                            if (item.hostId == ViewBag.UserId)
-                            {
-                                <div style="display:flex; flex-direction:row; ">
-
-                                    <a class="event-edit" asp-action="Edit" asp-route-id="@item.id">Edit</a>
-
-                                    <a class="event-delete" asp-action="Delete" asp-route-id="@item.id" style="margin-left:1em;">Delete</a>
-                                </div>
-                            }
-                        }
-
-
-
-                    </td>
-                </tr>
+                </td>
+            </tr>
                 }
             }
-        </tbody>
-    </table>
-    @*<br />
-    <div>
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-        @Html.PagedListPager(Model, page => Url.Action("Index",
-            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-    </div>*@
+    </tbody>
+</table>
