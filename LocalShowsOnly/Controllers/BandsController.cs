@@ -87,7 +87,7 @@ namespace LocalShowsOnly.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,bandName,bio,externalLink,genre,photoURL,isActive")] Band band, IFormFile file)
+        public async Task<IActionResult> Create([Bind("id,bandName,bio,externalLink,genre,photoURL, SpotifyURI,isActive")] Band band, IFormFile file)
         {
             //Remove hostId, get ID of logged in user, add it to the Event obj
             ModelState.Remove("hostId");
@@ -143,7 +143,7 @@ namespace LocalShowsOnly.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("id,bandName,bio,externalLink,genre,photoURL,isActive")] Band band, IFormFile file)
+        public async Task<IActionResult> Edit(int id, [Bind("id,bandName,bio,externalLink,genre,photoURL, SpotifyURI,isActive")] Band band, IFormFile file)
         {
             if (id != band.id)
             {

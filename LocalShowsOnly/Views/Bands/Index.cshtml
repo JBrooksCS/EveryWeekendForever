@@ -13,39 +13,34 @@
     <thead>
         <tr>
             <th>
+               
+                NAME
+            </th>
+            <th>
+                &nbsp
+            </th>
+
+            
+            <th>
+                
                 &nbsp
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.bandName)*@
-                NAME
-            </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.bio)
-            </th>*@
-        <th>
-            @*@Html.DisplayNameFor(model => model.externalLink)*@
-            &nbsp
-        </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.genre)*@
+              
                 STYLE
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.photoURL)
-            </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td style="font-family:Permanent Marker">
+                @Html.DisplayFor(modelItem => item.bandName)
+            </td>
             <td>
                 <img src="@Url.Content(item.photoURL)" style="max-height: 400px; max-width:400px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" />
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.bandName)
-            </td>
-            
             @{
                 if (item.externalLink != null)
                 {
@@ -67,29 +62,33 @@
             </td>
 
             <td>
-                <iframe src="https://open.spotify.com/embed/track/1ugFfwojrszdVB7klrnQMP" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                <iframe src="https://open.spotify.com/embed/track/@item.SpotifyURI" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"></iframe>
             </td>
-            
-
-            <td>
+            @*<td>
                 <form>
                     <input type="submit" name="details" value="Details" formaction="/Bands/Details/@item.id" formmethod="get" />
                 </form>
-            </td>
-
-
-
+            </td>*@
             <td>
                 @*<a asp-action="Details" asp-route-id="@item.id">Details</a>*@
                 @{
 
                     if (item.hostId == ViewBag.UserId)
                     {
-                        <div style="display:flex; flex-direction:row; ">
 
-                            <a asp-action="Edit" asp-route-id="@item.id">Edit</a>
-
-                            <a asp-action="Delete" asp-route-id="@item.id" style="margin-left:1em;">Delete</a>
+                        <form>
+                            <div class="btn-group-vertical">
+                                <button type="submit" name="details" value="Details" formaction="/Bands/Details/@item.id" formmethod="get"class="btn btn-dark" >Details</button>
+                                <button asp-action="Edit" asp-route-id="@item.id" class="btn btn-dark">Edit</button>
+                                <button asp-action="Delete" asp-route-id="@item.id" class="btn btn-dark">Delete</button>
+                            </div>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="btn-group-vertical">
+                            <button type="submit" name="details" value="Details" formaction="/Bands/Details/@item.id" formmethod="get" class="btn btn-dark">Details</button>
+                            
                         </div>
                     }
                 }

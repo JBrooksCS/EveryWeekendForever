@@ -39,6 +39,11 @@
                     <label asp-for="photoURL" class="control-label">Band Photo</label>
                     <input type="file" name="file" id="file" required="required" />
                 </div>
+                <div class="form-group">
+                    <label asp-for="SpotifyURI" class="control-label">Spotify Song URI</label>
+                    <input asp-for="SpotifyURI" class="form-control" />
+                    <span asp-validation-for="SpotifyURI" class="text-danger"></span>
+                </div>
                 @*<div class="form-group form-check">
                     <label class="form-check-label">
                         <input class="form-check-input" asp-for="isActive" /> @Html.DisplayNameFor(model => model.isActive)
