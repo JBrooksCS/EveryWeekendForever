@@ -11,28 +11,28 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @*@Html.DisplayNameFor(model => model.photoURL)*@
+            
         </dt>
         <dd class="col-sm-10">
             <img src="@Url.Content(Model.photoURL)" alt="Image" style="max-height: 200px; max-width:200px;" />
         </dd>
 
         <dt class="col-sm-2">
-            @*@Html.DisplayNameFor(model => model.externalLink)*@
+           
             Music / Website
         </dt>
         <dd class="col-sm-10">
             <a href="@Html.DisplayFor(model => model.externalLink)" target="_blank">@Html.DisplayFor(model => model.externalLink)</a>
         </dd>
         <dt class="col-sm-2">
-            @*@Html.DisplayNameFor(model => model.genre)*@
+            
             Style
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.genre)
         </dd>
         <dt class="col-sm-2">
-            @*@Html.DisplayNameFor(model => model.bio)*@
+            
             About
         </dt>
         <dd class="col-sm-10">
@@ -47,6 +47,9 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
+    @if (Model.hostId == ViewBag.UserId)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> <a>|</a>
+    }
     <a asp-action="Index">Back to List</a>
 </div>

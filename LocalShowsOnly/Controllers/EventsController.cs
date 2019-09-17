@@ -14,6 +14,7 @@ using LocalShowsOnly.Models.ViewModels;
 using System.IO;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.AspNetCore.Hosting;
+using PagedList;
 
 namespace LocalShowsOnly.Controllers
 {
@@ -33,18 +34,30 @@ namespace LocalShowsOnly.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            
+
             var list = await _context.Event
                 .Include(e => e.venue)
                 .Include(e => e.RSVPs)
+                .OrderBy(e => e.showtime)
                 .ToListAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                list = list.Where(s => s.title.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
+            var TopAttended = list.OrderByDescending(e => e.RSVPs.Count).Take(1);
+            ViewBag.top = TopAttended.ElementAt(0).id;
 
             var user = await GetUserAsync();
             //Set userid to a string to avoid null being passed into viewbag
             if (user == null)
             {
                 ViewBag.UserId = "not_logged_in";
+                
                 var attendingList = new List<RSVP>();
             }
             else
@@ -53,6 +66,7 @@ namespace LocalShowsOnly.Controllers
                 var attendingList = await _context.RSVP.Where(e => e.attendeeId == user.Id).Select(e => e.eventId).ToListAsync();
                 ViewBag.AttendingList = attendingList;
             }
+            
             return View(list);
         }
 

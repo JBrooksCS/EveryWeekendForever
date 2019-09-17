@@ -134,7 +134,7 @@ namespace LocalShowsOnly.Controllers
             {
                 return View(band);
             }
-            return NotFound();
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Bands/Edit/5
