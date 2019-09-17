@@ -50,7 +50,7 @@
                 if (item.externalLink != null)
                 {
                     <td>
-                        <a href="@Html.DisplayFor(modelItem => item.externalLink)" target="_blank">Link</a>
+                        <a href="@Html.DisplayFor(modelItem => item.externalLink)" target="_blank">Website</a>
                     </td>
                 }
                 else
@@ -64,6 +64,10 @@
             }
             <td>
                 @Html.DisplayFor(modelItem => item.genre)
+            </td>
+
+            <td>
+                <iframe src="https://open.spotify.com/embed/track/1ugFfwojrszdVB7klrnQMP" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
             </td>
             
 

@@ -114,7 +114,7 @@ namespace LocalShowsOnly.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Create([Bind("id,hostId,title,venueId,showtime,externalLink,photoURL")] Event @event, IFormFile file)
+        public async Task<IActionResult> Create([Bind("id,hostId,title,venueId,showtime,externalLink,price, description,photoURL")] Event @event, IFormFile file)
         {
             //Remove hostId, get ID of logged in user, add it to the Event obj
             ModelState.Remove("hostId");

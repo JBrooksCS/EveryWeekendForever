@@ -114,7 +114,7 @@ body {
 .event-rsvp {
     /*-webkit-animation: neon1 1.5s ease-in-out infinite alternate;
     -moz-animation: neon1 1.5s ease-in-out infinite alternate;*/
-    animation: neon1 .2s ease-in-out infinite alternate;
+    animation: neon1 .1s ease-in-out infinite alternate;
 }
 
 @keyframes neon1 {
