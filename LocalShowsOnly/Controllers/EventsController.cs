@@ -49,11 +49,15 @@ namespace LocalShowsOnly.Controllers
                 list = list.Where(s => s.title.ToLower().Contains(searchString.ToLower())).ToList();
             }
 
+            var TopAttended = list.OrderByDescending(e => e.RSVPs.Count).Take(1);
+            ViewBag.top = TopAttended.ElementAt(0).id;
+
             var user = await GetUserAsync();
             //Set userid to a string to avoid null being passed into viewbag
             if (user == null)
             {
                 ViewBag.UserId = "not_logged_in";
+                
                 var attendingList = new List<RSVP>();
             }
             else
