@@ -90,7 +90,7 @@
             {
                         <td>
                             <form asp-action="RemoveAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
-                                <input type="submit" name="not attending" value=" You're Going  " style="background-color:lightgreen" />
+                                <input class="btn btn-success" type="submit" name="not attending" value=" You're Going  " />
                             </form>
                         </td>
             }
@@ -98,7 +98,7 @@
             {
                         <td>
                             <form asp-action="AddAttendee" asp-controller="RSVPs" asp-route-showId="@item.id">
-                                <input type="submit" name="attend" value="Click to Attend" style="background-color:lightblue" />
+                                <input class="btn btn-outline-info" type="submit" name="attend" value="Click to Attend" style="background-color:lightblue" />
                             </form>
                         </td>
             }

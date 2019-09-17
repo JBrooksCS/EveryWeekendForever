@@ -179,7 +179,7 @@ namespace LocalShowsOnly.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("id,hostId,title,venueId,showtime,externalLink,photoURL")] Event @event, IFormFile file)
+        public async Task<IActionResult> Edit(int id, [Bind("id,hostId,title,venueId,showtime,description,price,externalLink,photoURL")] Event @event, IFormFile file)
         {
             if (id != @event.id)
             {
