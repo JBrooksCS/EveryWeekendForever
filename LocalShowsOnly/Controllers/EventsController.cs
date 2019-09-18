@@ -156,8 +156,10 @@ namespace LocalShowsOnly.Controllers
         }
         [Authorize]
         // GET: Events/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [Route("Event/Edit/{showId}/{pageNumber}")]
+        public async Task<IActionResult> Edit(int? showId)
         {
+            var id = showId;
             //If the id isnt found, return NOT FOUND
             if (id == null)
             {
@@ -194,9 +196,12 @@ namespace LocalShowsOnly.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Event/Edit/{showId}/{pageNumber}")]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("id,hostId,title,venueId,showtime,description,price,externalLink,photoURL")] Event @event, IFormFile file)
+        public async Task<IActionResult> Edit(int showId, [Bind("id,hostId,title,venueId,showtime,description,price,externalLink,photoURL")] Event @event, IFormFile file)
         {
+            var id = showId;
+
             if (id != @event.id)
             {
                 return NotFound();
@@ -243,7 +248,8 @@ namespace LocalShowsOnly.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Events", new { pageNumber = RouteData.Values["pageNumber"].ToString() });
             }
             return View(@event);
             
