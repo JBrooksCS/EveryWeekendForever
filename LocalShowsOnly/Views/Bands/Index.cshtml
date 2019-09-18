@@ -6,9 +6,6 @@
 
 <h2>[BANDS]</h2>
 
-@*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
 <table class="table">
     <thead>
         <tr>
@@ -20,14 +17,21 @@
                 &nbsp
             </th>
 
-
             <th>
 
                 &nbsp
             </th>
             <th>
 
-                STYLE
+                @using (Html.BeginForm())
+                {
+                    
+                        @Html.DropDownList("genreListItem",
+                                        ViewBag.genres,
+                                        "STYLE",
+                                        new { onchange = "this.form.submit();" })
+                    
+                }
             </th>
             <th>	&#127911</th>
             <th>
@@ -37,70 +41,71 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td style="font-family:Permanent Marker; font-size:1.4em;" >
-                @Html.DisplayFor(modelItem => item.bandName)
-            </td>
-            <td>
-                <img src="@Url.Content(item.photoURL)" style="max-height: 400px; max-width:400px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" />
-            </td>
-            @{
-                if (item.externalLink != null)
-                {
-                    <td>
-                        <a href="@Html.DisplayFor(modelItem => item.externalLink)" class="text-secondary" target="_blank">Website</a>
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        <p>
-                            &nbsp
-                        </p>
-                    </td>
-                }
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.genre)
-            </td>
-
-            <td>
-                <iframe src="https://open.spotify.com/embed/track/@item.SpotifyURI" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"></iframe>
-            </td>
-            @*<td>
-                <form>
-                    <input type="submit" name="details" value="Details" formaction="/Bands/Details/@item.id" formmethod="get" />
-                </form>
-            </td>*@
-            <td>
-                @*<a asp-action="Details" asp-route-id="@item.id">Details</a>*@
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="font-family:Permanent Marker; font-size:1.4em;">
+                    @Html.DisplayFor(modelItem => item.bandName)
+                </td>
+                <td>
+                    <img src="@Url.Content(item.photoURL)" style="max-height: 400px; max-width:400px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" />
+                </td>
                 @{
-
-                    if (item.hostId == ViewBag.UserId)
+                    if (item.externalLink != null)
                     {
-
-                        <form>
-                            <div class="btn-group-vertical">
-                                <button type="submit" name="details" value="Details" formaction="/Bands/Details/@item.id" formmethod="get"class="btn btn-dark" >Details</button>
-                                <button asp-action="Edit" asp-route-id="@item.id" class="btn btn-dark">Edit</button>
-                                <button asp-action="Delete" asp-route-id="@item.id" class="btn btn-dark">Delete</button>
-                            </div>
-                        </form>
+                        <td>
+                            <a href="@Html.DisplayFor(modelItem => item.externalLink)" class="text-secondary" target="_blank">Website</a>
+                        </td>
                     }
                     else
                     {
-                        <div class="btn-group-vertical">
-                            <button type="submit" name="details" value="Details" formaction="/Bands/Details/@item.id" formmethod="get" class="btn btn-dark">Details</button>
-                            
-                        </div>
+                        <td>
+                            <p>
+                                &nbsp
+                            </p>
+                        </td>
                     }
                 }
+                <td>
+                    @Html.DisplayFor(modelItem => item.genre)
+                </td>
+
+                <td>
+                    <iframe src="https://open.spotify.com/embed/track/@item.SpotifyURI" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"></iframe>
+                </td>
+                @*<td>
+                        <form>
+                            <input type="submit" name="details" value="Details" formaction="/Bands/Details/@item.id" formmethod="get" />
+                        </form>
+                    </td>*@
+                <td>
+                    @*<a asp-action="Details" asp-route-id="@item.id">Details</a>*@
+                    @{
+
+                        if (item.hostId == ViewBag.UserId)
+                        {
+
+                            <form>
+                                <div class="btn-group-vertical">
+                                    <button type="submit" name="details" value="Details" formaction="/Bands/Details/@item.id" formmethod="get" class="btn btn-dark">Details</button>
+                                    <button asp-action="Edit" asp-route-id="@item.id" class="btn btn-dark">Edit</button>
+                                    <button asp-action="Delete" asp-route-id="@item.id" class="btn btn-dark">Delete</button>
+                                </div>
+                            </form>
+                        }
+                        else
+                        {
+                            <div class="btn-group-vertical">
+                                <button type="submit" name="details" value="Details" formaction="/Bands/Details/@item.id" formmethod="get" class="btn btn-dark">Details</button>
+
+                            </div>
+                        }
+                    }
 
 
 
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

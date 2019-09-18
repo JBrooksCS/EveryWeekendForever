@@ -32,21 +32,50 @@ namespace LocalShowsOnly.Controllers
         }
 
         // GET: Bands
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string genreListItem)
         {
             var user = await GetUserAsync();
             //Set userid to a string to avoid null being passed into viewbag
             if (user == null)
             {
                 ViewBag.UserId = "not_logged_in";
-                
             }
             else
             {
                 ViewBag.UserId = user.Id;
-                
             }
-            return View(await _context.Band.ToListAsync());
+            var list = await _context.Band.ToListAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                list = list.Where(s => s.genre.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+            if (!String.IsNullOrEmpty(genreListItem))
+            {
+                list = list.Where(s => s.genre.ToLower().Contains(genreListItem.ToLower())).ToList();
+            }
+            ViewBag.genres = new List<SelectListItem>()
+            {
+                     new SelectListItem() {Text="Rock", Value="Rock"},
+                     new SelectListItem() {Text="Blues", Value="Blues"},
+                     new SelectListItem() {Text="Country", Value="Country"},
+                     new SelectListItem() {Text="Jazz", Value="Jazz"},
+                     new SelectListItem() {Text="Funk", Value="Funk"},
+                     new SelectListItem() {Text="R&B", Value="R&B"},
+                     new SelectListItem() {Text="Rap", Value="Rap"},
+                     new SelectListItem() {Text="Math Rock", Value="Math Rock"},
+                     new SelectListItem() {Text="Americana", Value="Americana"},
+                     new SelectListItem() {Text="Electronic", Value="Electronic"},
+                     new SelectListItem() {Text="EDM", Value="EDM"},
+                     new SelectListItem() {Text="Metal", Value="Metal"},
+                     new SelectListItem() {Text="Experimental", Value="Experimental"},
+                     new SelectListItem() {Text="Pop / Dance", Value="Pop / Dance"},
+                     new SelectListItem() {Text="Other", Value="Other"}
+
+            };
+
+
+            return View(list);
         }
 
         // GET: Bands/Details/5

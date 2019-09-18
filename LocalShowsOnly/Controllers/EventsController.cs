@@ -62,7 +62,7 @@ namespace LocalShowsOnly.Controllers
             }
             else
             {
-                ViewBag.UserId = user.Id;
+                ViewBag.UserId = user.Id; 
                 var attendingList = await _context.RSVP.Where(e => e.attendeeId == user.Id).Select(e => e.eventId).ToListAsync();
                 ViewBag.AttendingList = attendingList;
             }
