@@ -151,7 +151,7 @@
 
                         <form>
                             <div class="btn-group-vertical">
-                                <button type="submit" name="details" value="Details" formaction="/Events/Details/@item.id" formmethod="get" class="btn btn-dark">Details</button>
+                                <button asp-action="Details" asp-all-route-data="parms"  class="btn btn-dark">Details</button>
                                 <button asp-action="Edit" asp-all-route-data="parms"  class="btn btn-dark">Edit</button>
                                 <button asp-action="Delete" asp-route-id="@item.id" class="btn btn-dark">Delete</button>
                             </div>
@@ -161,7 +161,7 @@
                     {
                         <form>
                             <div class="btn-group-vertical">
-                                <button type="submit" name="details" value="Details" formaction="/Events/Details/@item.id" formmethod="get" class="btn btn-dark">Details</button>
+                                <button asp-action="Details" asp-all-route-data="parms" class="btn btn-dark">Details</button>
 
                             </div>
                         </form>
@@ -173,7 +173,7 @@
             </td>
 
         </tr>
-                                //}
+                           
                             }
     </tbody>
 </table>

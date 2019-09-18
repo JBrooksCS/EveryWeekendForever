@@ -85,10 +85,12 @@ namespace LocalShowsOnly.Controllers
             return View(await PaginatedList<Event>.CreateAsync(list.AsNoTracking(), pageNumber ?? 1, pageSize));
             //return View(list);
         }
-
         // GET: Events/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [Route("Events/Details/{showId}/{pageNumber}")]
+        public async Task<IActionResult> Details(int? showId)
         {
+            var id = showId;
+
             if (id == null)
             {
                 return NotFound();
@@ -111,6 +113,7 @@ namespace LocalShowsOnly.Controllers
                 ViewBag.UserId = user.Id;
             }
             return View(@event);
+            //return RedirectToAction("Details", $"Events/{id}", new { pageNumber = RouteData.Values["pageNumber"].ToString() });
         }
         [Authorize]
         // GET: Events/Create
@@ -154,8 +157,8 @@ namespace LocalShowsOnly.Controllers
             }
             return View(@event);
         }
-        [Authorize]
         // GET: Events/Edit/5
+        [Authorize]
         [Route("Event/Edit/{showId}/{pageNumber}")]
         public async Task<IActionResult> Edit(int? showId)
         {
