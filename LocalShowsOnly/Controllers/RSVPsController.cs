@@ -122,9 +122,13 @@ namespace LocalShowsOnly.Controllers
         //POST RSVPs/AddAttendee/5
         [Authorize]
         [HttpPost, ActionName("AddAttendee")]
+        [Route("Event/{showId}/RSVP/{pageNumber}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddAttendee(int showId)
         {
+            
+            //var route_test_2 = RouteData.Values["showId"].ToString();
+            //var routeId = RouteData.Values["pageNumber"].ToString();
             var user = await GetUserAsync();
             if (user == null)
             {
@@ -145,7 +149,7 @@ namespace LocalShowsOnly.Controllers
                 _context.Add(newRSVP);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Index", "Events");
+            return RedirectToAction("Index", "Events", new { pageNumber = RouteData.Values["pageNumber"].ToString()});
         }
         //GET RSVPs/AddAttendee/5
         [HttpGet]
@@ -155,6 +159,7 @@ namespace LocalShowsOnly.Controllers
         }
         //POST RSVPs/RemoveAttendee/5
         [HttpPost, ActionName("RemoveAttendee")]
+        [Route("Event/{showId}/unRSVP/{pageNumber}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveAttendee(int showId)
         {
@@ -179,7 +184,7 @@ namespace LocalShowsOnly.Controllers
                 _context.Remove(rSVP);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Index", "Events");
+            return RedirectToAction("Index", "Events", new { pageNumber = RouteData.Values["pageNumber"].ToString() });
         }
 
 
