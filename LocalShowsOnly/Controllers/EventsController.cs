@@ -43,20 +43,17 @@ namespace LocalShowsOnly.Controllers
                 .Include(e => e.RSVPs)
                 .Where(e => e.showtime >= DateTime.Now)
                 .OrderBy(e => e.showtime);
-                
+
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                //list = list.Where(s => s.title.ToLower().Contains(searchString.ToLower())).ToList();
+                list = list.Where(s => s.title.ToLower().Contains(searchString.ToLower())).OrderBy(e => e.showtime);
                 pageNumber = 1;
             }
             else
             {
                 searchString = currentFilter;
             }
-
-            //IEnumerable<Event> list_ie = list;
-            //IQueryable<Event> list_iq = list_ie;
 
             ViewBag.CurrentFilter = searchString;
 
