@@ -49,7 +49,7 @@
 </div>
 <div>
     @if (Model.hostId == ViewBag.UserId){
-    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> <a>|</a>
+    @*<a asp-action="Edit" asp-route-id="@Model.id">Edit</a> <a>|</a>*@
     }
     <a asp-action="Index" asp-route-pageNumber="@ViewBag.page">Back to List</a>
 </div>

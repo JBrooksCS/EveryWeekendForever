@@ -89,6 +89,7 @@
                     <td >
                         <div class="event-showtime shake-little shake-constant" style="padding:.4em; border-radius:.1em;box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.19); background-color: rgb(246, 174, 124)">
                             @item.showtime.ToString("M/d/yy")
+                            <div style="font-family:permanent marker">Today!</div>
                         </div>
                     </td>
             }
@@ -144,7 +145,7 @@
                 {
                     <td>
                         <form asp-action="AddAttendee" asp-controller="RSVPs" asp-all-route-data="parms">
-                            <input class="btn btn-outline-info" type="submit" name="attend" value="Click to Attend" />
+                            <input class="btn btn-outline-secondary" type="submit" name="attend" value="Click to Attend" />
                         </form>
                     </td>
                 }
