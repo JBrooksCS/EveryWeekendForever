@@ -84,39 +84,45 @@
             <td>
                 @Html.DisplayFor(modelItem => item.venue.venueName)
             </td>
-            <td>
-                @item.showtime.ToString("M/d/yy")
-            </td>
-            @{
-                if (item.externalLink != null)
-                {
-                    <td>
-                        <a href="@Html.DisplayFor(modelItem => item.externalLink)" target="_blank">Link</a>
+            @{ if (item.showtime.ToString("M/d/yy") == DateTime.Now.ToString("M/d/yy"))
+            {
+                    <td >
+                        <div class="event-showtime shake-little shake-constant" style="padding:.4em; border-radius:.1em;box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.19);">
+                            @item.showtime.ToString("M/d/yy")
+                        </div>
                     </td>
-                }
-                else
-                {
-                    <td>
-                        <p>
-                            &nbsp
-                        </p>
-                    </td>
+            }
+            else
+            {
+                 <td >
+                     <div class="event-showtime" style="padding:.4em; border-radius:.1em;box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.19);">
+                         @item.showtime.ToString("M/d/yy")
+                     </div>
+                 </td>
+
                 }
             }
             @{ if (item.id == ViewBag.top)
                 {
-                    <td class="event-rsvp">
-                        @Html.DisplayFor(modelItem => item.RSVPs.Count)&nbspgoing
+
+                    <td>
+                        <div class="event-rsvp shake shake-constant" style="padding:.4em; border-radius:.1em;box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.19);">
+                            @Html.DisplayFor(modelItem => item.RSVPs.Count)&nbspgoing
+                        </div>
                     </td>
+
                 }
                 else
                 {
                     <td>
-                        @Html.DisplayFor(modelItem => item.RSVPs.Count)&nbspgoing
+                        <div class="bg-transparent" style="padding:.4em; border-radius:.1em;box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.19);">
+
+                            @Html.DisplayFor(modelItem => item.RSVPs.Count)&nbspgoing
+                        </div>
                     </td>
                 }
             }
-            
+
             @{
                 var parms = new Dictionary<string, string> {
                        {"showId", $"{@item.id}" },
@@ -151,9 +157,9 @@
 
                         <form>
                             <div class="btn-group-vertical">
-                                <button asp-action="Details" asp-all-route-data="parms"  class="btn btn-dark">Details</button>
-                                <button asp-action="Edit" asp-all-route-data="parms"  class="btn btn-dark">Edit</button>
-                                <button asp-action="Delete" asp-route-id="@item.id" class="btn btn-dark">Delete</button>
+                                <button asp-action="Details" asp-all-route-data="parms" class="btn btn-dark">Details</button>
+                                <button asp-action="Edit" asp-all-route-data="parms" class="btn btn-dark">Edit</button>
+                                <button asp-action="Delete" asp-all-route-data="parms" class="btn btn-dark">Delete</button>
                             </div>
                         </form>
                     }

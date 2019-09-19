@@ -41,9 +41,12 @@ namespace LocalShowsOnly.Controllers
             var list = _context.Event
                 .Include(e => e.venue)
                 .Include(e => e.RSVPs)
-                .Where(e => e.showtime >= DateTime.Now)
+                .Where(e => e.showtime.Date >= DateTime.Now.Date)
                 .OrderBy(e => e.showtime);
 
+            var foo = await list.ToListAsync();
+            var TopAttended = foo.OrderByDescending(e => e.RSVPs.Count).Take(1);
+            ViewBag.top = TopAttended.ElementAt(0).id;
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -57,9 +60,7 @@ namespace LocalShowsOnly.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var foo = await list.ToListAsync();
-            var TopAttended = foo.OrderByDescending(e => e.RSVPs.Count).Take(1);
-            ViewBag.top = TopAttended.ElementAt(0).id;
+            
             //var TopAttended = list.OrderByDescending(e => e.RSVPs.Count).Take(1);
             //ViewBag.top = TopAttended.ElementAt(0).id;
 
@@ -87,6 +88,7 @@ namespace LocalShowsOnly.Controllers
         public async Task<IActionResult> Details(int? showId)
         {
             var id = showId;
+            ViewBag.page = RouteData.Values["pageNumber"].ToString();
 
             if (id == null)
             {
@@ -160,6 +162,7 @@ namespace LocalShowsOnly.Controllers
         public async Task<IActionResult> Edit(int? showId)
         {
             var id = showId;
+            ViewBag.page = RouteData.Values["pageNumber"].ToString();
             //If the id isnt found, return NOT FOUND
             if (id == null)
             {
@@ -254,10 +257,13 @@ namespace LocalShowsOnly.Controllers
             return View(@event);
             
         }
-        [Authorize]
         // GET: Events/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [Route("Event/Delete/{showId}/{pageNumber}")]
+        [Authorize]
+        public async Task<IActionResult> Delete(int? showId)
         {
+            var id = showId;
+            ViewBag.page = RouteData.Values["pageNumber"].ToString();
             if (id == null)
             {
                 return NotFound();
@@ -282,6 +288,7 @@ namespace LocalShowsOnly.Controllers
 
         // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
+        //[Route("Event/Delete/{showId}/{pageNumber}")]
         [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
